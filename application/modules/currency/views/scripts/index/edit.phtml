@@ -1,0 +1,107 @@
+<?php error_reporting(0);
+$frmcate = $this->frmcate;
+$icon = $this->icon;
+$session_user = new Zend_Session_Namespace('auth');
+$cancel_url = $this->url(array('module'=>'currency','controller'=>'index','action'=>''),null,true);
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<style>
+dt{ display: none;}
+.btn{ margin-right: 5px!important;margin-left: 5px!important;} 
+.breadCrumb{ margin-top:5px;}
+</style>
+<form id="validate" enctype="multipart/form-data" method="post">
+    <div class="content">                
+        <div class="row-fluid">           
+            <div class="span12">                                
+                <div class="widget">
+                    <div class="head">
+                        <div class="icon"><i class="icosg-bookmark1"></i></div>
+                        <h2><?php echo $tr->translate('FORM_EDIT') ?></h2>
+                    </div>                                           
+                    <div class="block-fluid"> 
+                        <div class="row-form">                            
+                            <div class="span2"><?php echo $tr->translate('NAME_EN') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('name_en');?>
+                            </div>
+                            <div class="span2"><?php echo $tr->translate('NAME_KM') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('name_km');?>
+                            </div>
+                        </div>
+                        <div class="row-form">
+                        	<div class="span2"><?php echo $tr->translate('STATUS') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('status');?>
+                            </div>
+                        	<div class="span2"><?php echo $tr->translate('ICON') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('icon');?>
+                            </div>
+                        </div>
+                        <div class="row-form">
+                        	<div class="span2"><?php //echo $tr->translate('RATE') ?>:</div>
+                            <div class="span4">
+                                <?php //echo $frmcate->getElement('rate');?>​
+                            </div>   
+                        	 <div class="span6" class="toolbar bottom TAR" style="float: right;">
+                                 <div class="btn-group pull-right" style="margin-top:2px;"> 
+                                  <button type="submit" id="save" name="save" class="btn btn-primary btn-grad"><i class="icon-pencil icon-white"> </i> <?php echo $tr->translate('UPDATE') ?></button>
+                        		<!--  <button type="submit" id="save_add" name="save_add" class="btn btn-primary btn-grad"><i class="icon-plus icon-white"> </i><?php //echo $tr->translate('UPDATE_NEW') ?></button> -->
+                        		<button type="submit" id="save_close" name="save_close" class="btn btn-primary btn-grad"><i class="icon-share icon-white"> </i> <?php echo $tr->translate('UPDATE_CLOSE') ?></button>                        		
+                        		<a href="<?php echo $cancel_url; ?>"><button type="button" class="btn btn-danger btn-grad"><i class="icon-remove-sign icon-white"> </i> <?php echo $tr->translate('CANCEL') ?></button></a>	
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+              </div>                
+        </div>                        
+    </div>  
+</form>
+<script>
+<?php $getfillter_add =  $this->url(array('module'=>'currency','controller'=>'index','action'=>'getfillteradd')); ?>
+function GetCatName(type){
+	if(type==1){
+		name = $('#name_en').val();
+	}
+	if(type==2){
+		name = $('#name_km').val();
+	}
+	$.ajax({
+		url:"<?php echo $getfillter_add;?>",
+		type:"post",
+		data:{'name':name,'type':type},
+		success: function(data){	
+			catname = $.parseJSON(data);
+			//alert(catname);				
+			if(catname!=""){
+					for (var index = 1; index <= catname.length; index++) {
+						 alert(catname[index-1]['cat_name']+" is Already Exist!!");
+					}
+					if(type==1){
+						document.getElementById("name_en").style.borderColor="#FF0000";
+		 				document.getElementById("name_en").style.color="#FF0000";
+					}
+					if(type==2){
+						document.getElementById("name_km").style.borderColor="#FF0000";
+		 				document.getElementById("name_km").style.color="#FF0000";
+					}
+				 document.getElementById("save").setAttribute('disabled', 'disabled');
+				 document.getElementById("save_close").setAttribute('disabled', 'disabled');
+			}else{
+				document.getElementById("save").disabled = false;
+				document.getElementById("save_close").disabled = false;
+				document.getElementById("name_en").style.borderColor="";
+ 				document.getElementById("name_en").style.color="";
+ 				document.getElementById("name_km").style.borderColor="";
+ 				document.getElementById("name_km").style.color="";
+			}
+		},
+		error:function(e){
+			alert(e);
+		}
+	});
+}
+</script>

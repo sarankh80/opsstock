@@ -1,0 +1,78 @@
+<?php $frmcate = $this->frmcate;
+$session_user = new Zend_Session_Namespace('auth');
+$cancel_url = $this->url(array('module'=>'currency','controller'=>'index','action'=>''),null,true);
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+
+$data = $this->data;
+?>
+<style>
+dt{ display: none;}
+.btn{ margin-right: 5px!important;margin-left: 5px!important;} 
+.breadCrumb{ margin-top:5px;}
+</style>
+<script type="text/javascript">
+<!--
+	function Getacademic(){
+		date= new Date();		
+		year1 = date.getFullYear();
+		year2 = date.getFullYear()+1;
+		sum = year1 +"  -  "+ year2;
+		$("#academic_year").attr("value",sum);
+	}
+//-->
+</script>
+<form id="validate" enctype="multipart/form-data" method="post">
+    <div class="content">                
+        <div class="row-fluid">           
+            <div class="span12">                                
+                <div class="widget">
+                    <div class="head">
+                        <div class="icon"><i class="icosg-bookmark1"></i></div>
+                        <h2><?php echo $tr->translate('EXACHAGNE_RATE') ?></h2>
+                    </div>                                            
+                    
+                    <div class="block-fluid">
+                         <div class="row-form">                            
+                            <table width="100%">
+                            	<tr>
+                            		<th><?php echo $tr->translate('FROM_CU'); ?></th>
+                            		<th><?php echo $tr->translate('TO_CU'); ?></th>
+                            		<th><?php echo $tr->translate('RATE'); ?></th>
+                            	</tr>
+                            	<?php 
+                            		foreach ($data as $key=> $rs){
+                            			$inx = $key+1;
+                            	?>
+                            	<tr>
+                            		<td><input type="hidden" name="id_<?php echo  $inx?>" value="<?php echo $rs['id'];?>" /> <?php echo $rs["from_cu"] ?></td>
+                            		<td><?php echo $rs["to_cu"]; ?></td>
+                            		<td><input type="text" name="rate_<?php echo $inx?>" value="<?php echo $rs['rate']?>"></td>
+                            	</tr>
+                            	<?php }?>
+                            </table>
+                        </div>
+                        <div class="row-form">
+			                            <div class="span6" style="float: right;">
+			                            	<button id="save" type="submit" class="btn btn-primary btn-sm btn-grad" name="save"><i class="icon-share icon-white"></i> Save</button>
+			                            </div>
+			                        </div>
+                      <input type="hidden" name="identity" id="identity" />
+                    </div>
+                 </div>
+            </div>                 
+        </div>                        
+    </div>  
+</form>
+<script>
+jQuery(document).ready(function(){
+	$('#add_item').focus();
+	 <?php foreach ($data as $key => $rs){$inx = $key+1;?>
+
+			if(<?php echo $inx;?>!=1) {
+				var identity = $('#identity').val();
+				$('#identity').val(identity+','+<?php echo $inx;?>);
+			} else {$('#identity').val(<?php echo $inx;?>);}
+
+	   <?php }?>
+});
+</script>

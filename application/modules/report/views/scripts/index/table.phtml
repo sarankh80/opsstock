@@ -1,0 +1,107 @@
+<?php  
+	$session_lang = new Zend_Session_Namespace('lang');
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<?php $session = new Zend_Session_Namespace('auth'); ?>
+<style>
+thead tr th{font-size: 13px; text-align: center !important;}
+td{font-size: 12px; text-align: center !important;}
+button{ margin-right: 5px;} td{ font-size:12px;} 
+.breadCrumb{ margin-top:5px;}
+</style> 
+ <script language="javascript">
+function Clickheretoprint()
+{ 
+  var disp_setting="toolbar=yes,location=no,directories=yes,menubar=yes,"; 
+      disp_setting+="scrollbars=yes,width=800, height=500, left=100, top=25"; 
+  var content_vlue = document.getElementById("printShow").innerHTML; 
+  
+  var docprint=window.open("","",disp_setting); 
+   docprint.document.open(); 
+   docprint.document.write('<html><head><title>Western University</title>'); 
+   docprint.document.write('</head><body onLoad="self.print()" style=" margin:0px; font-family:Verdana; font-size:8px;"><center>');          
+   docprint.document.write(content_vlue);          
+   docprint.document.write('</center></body></html>'); 
+   docprint.document.close(); 
+   docprint.focus(); 
+}
+</script>
+<form class="form-horizontal" id="popup-validation" enctype="multipart/form-data" method="post">
+    <div class=" clearfix">    
+             
+    </div>
+    <div class="content">                                  
+            <div class="widget">
+                <div class="head">                    
+                    <div class="btn-group pull-left">
+                    	<h2><span class="icon-th"></span><?php echo $tr->translate('TABLE'); ?></h2>   
+                    </div>
+                    <div class="panel panel-default">
+                    	<div class="panel-heading">
+                   			<div  class="btn-group pull-right" style="margin-top:2px;">	
+                            	<button class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-print"></i> Export & Print  <span class="caret"> </span></button>
+                                <ul class="dropdown-menu">                                   
+                                 	<li class="divider"></li>
+                               		<li><a href="#" onClick ="$('#customers2').tableExport({type:'excel',escape:'false'});"><img src='<?php echo $this->baseUrl();?>/img/icons/xls.png' width="24"/> Excel </a></li>
+                                  	<li><a href="#" onClick ="$('#customers2').tableExport({type:'doc',escape:'false'});"><img src='<?php echo $this->baseUrl();?>/img/icons/word.png' width="24"/> Word </a></li>
+	                              	<li><a href="#" onClick ="Clickheretoprint()"><img src='<?php echo $this->baseUrl();?>/img/icons/print.png' width="24"/> Print </a></li>
+                            	</ul>
+                            </div>   		    	     	                                         
+                         </div>                    
+                	</div>
+                <div style="clear:both"></div>
+                <div class="panel-body">                
+                    <div class="block-fluid">
+                        <table class="fTable" cellpadding="0" cellspacing="0" width="100%" id="customers2">
+                            <thead>
+                            	<tr>
+									<th width="5%"><?php if($session_lang->lang_id==2){ echo $tr->translate('NUM'); } else{ ?>N <sup> <u>o</u></sup><?php }?></th>
+		                        	 <th><?php echo $tr->translate('CODE'); ?></th>
+		                            <th><?php echo $tr->translate('NAME_EN'); ?></th>
+		                            <th><?php echo $tr->translate('NAME_KM'); ?></th>
+		                            <th><?php echo $tr->translate('ICON'); ?></th>
+		                       </tr>
+                            </thead>
+                            <tbody>
+                            <?php $i = 1;?>
+                    		<?php foreach($this->getdata as $data){?>
+		                    	<tr class="odd gradeX">
+		                    		<td><?php echo $i++;?></td>		                        
+		                        	<td><?php echo $data['code'];?></td>
+		                        	<td><?php echo $data['name_en'];?></td>
+		                        	<td><?php echo $data['name_km'];?></td>
+		                       		<td><img src="<?php echo $this->baseUrl()."/icon/".$data['icon'];?>" style="width: 50px;"/></td>
+                                </tr> 
+                            <?php } ?>                   
+                            </tbody>
+                        </table>
+                        <div  id="printShow" style="display: none;">
+                        <h2><?php echo $tr->translate('REPORT_TABLES');?></h2>
+                        <table style="width: 100%; border: 1px solid #DDD;position: relative;padding: 0px;margin: 0px;border-spacing: 0px;border-collapse: collapse;">
+                            <thead>
+                            	<tr style="font-size: 9px; text-align:center; background-color: #F2EDED !important;">
+									<th width="5%" style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;padding: 5px;"><?php if($session_lang->lang_id==2){ echo $tr->translate('NUM'); } else{ ?>N<sup><u>o</u></sup><?php }?></th>
+		                            <th style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;padding: 5px;"><?php echo $tr->translate('CODE'); ?></th>
+		                            <th style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;padding: 5px;"><?php echo $tr->translate('NAME_EN'); ?></th>
+		                            <th style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;padding: 5px;"><?php echo $tr->translate('NAME_KM'); ?></th>
+		                       </tr>
+                            </thead>
+                            <tbody>
+                            <?php $i = 1;?>
+                    		<?php foreach($this->getdata as $data){?>
+		                    	<tr class="odd gradeX" style="font-size: 9px;text-align:center;">
+		                    		<td style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;"><?php echo $i++;?></td>
+		                        	<td style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;"><?php echo $data['code'];?></td>
+		                        	<td style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;"><?php echo $data['name_en'];?></td>
+		                        	<td style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;"><?php echo $data['name_km'];?></td>
+                                </tr> 
+                            <?php } ?>                   
+                            </tbody>
+                        </table> 
+                        </div>                    
+                    </div> 
+           		</div>            
+			</div>  
+    	</div> 
+    </div> 
+</form>

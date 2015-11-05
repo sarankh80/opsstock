@@ -1,0 +1,122 @@
+<?php  
+	$session_lang = new Zend_Session_Namespace('lang');
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$frm=$this->frm;
+?>
+<?php $session = new Zend_Session_Namespace('auth'); ?>
+<?php $add_url = $this->url(array('module'=>'phurchase','controller'=>'order','action'=>'add'),null,true);?>
+<?php $edit_url = $this->url(array('module'=>'phurchase','controller'=>'order','action'=>'edit'),null,true);?>  
+<?php $delete_url = $this->url(array('module'=>'phurchase','controller'=>'order','action'=>'delete'),null,true);?>
+<style>
+dt{ display: none;}
+.btn{ margin-right: 5px!important;margin-left: 5px!important;} 
+.breadCrumb{ margin-top:5px;}
+.ui-pnotify,custom{display: none !important;}
+</style> 
+<style>
+thead tr th{font-size: 13px; text-align: center !important;}
+td{font-size: 12px; text-align: center !important;}
+button{ margin-right: 5px;} td{ font-size:12px;} 
+.breadCrumb{ margin-top:5px;}
+</style> 
+<form class="form-horizontal" id="popup-validation" enctype="multipart/form-data" method="post">
+    <div class=" clearfix">    
+             
+    </div>
+    <div class="content">                                  
+            <div class="widget">
+                <div class="head">                    
+                    <div class="btn-group pull-left">
+                    	<h2><span class="icon-th"></span><?php echo $tr->translate('TABLE'); ?></h2>   
+                    </div>
+                    <div class="panel panel-default">
+                    	<div class="panel-heading">
+                    		<div  class="btn-group pull-right" style="margin-top:2px;">				
+									<a href="<?php echo $add_url;?>">
+									<button type="button" class="btn btn-primary "><span class="icon-plus-sign icon-white" ></span> <?php echo $tr->translate('NEW'); ?> </button>					
+									</a>
+									<button type="submit" name="update" class="btn btn-primary"><i class="icon-edit icon-white"> </i> <?php echo $tr->translate('UPDATE'); ?> </button>
+									<button type="submit" name="delete" class="btn btn-danger"><i class="icon-remove icon-white"> </i> <?php echo $tr->translate('DELETE'); ?> </button>
+							</div>	             	     	                                         
+                         </div>                    
+                	</div>
+                <div style="clear:both"></div>
+                <div class="panel-body">  
+                	<div class="block-fluid">
+	            			<div class="row-form">
+	            				<div class="span2"><?php echo $tr->translate('SEARCH') ?>:</div>
+	                            <div class="span4"><?php echo $frm->getElement('txt_search');?></div>
+			                    <div class="span2"><?php echo $tr->translate('ORDER_NO') ?>:</div>
+			                    <div class="span4"><?php echo $frm->getElement('purchase_no');?></div> 
+	                        </div>
+	                        <div class="row-form">
+	            				<div class="span2"><?php echo $tr->translate('SUPPLIER') ?>:</div>
+	                            <div class="span4"><?php echo $frm->getElement('supplier');?></div>
+			                    <div class="span2"><?php echo $tr->translate('STATUS') ?>:</div>
+	            				<div class="span4"><?php echo $frm->getElement('status');?></div>
+	                        </div>
+	                        <div class="row-form">
+	            				<div class="span2"><?php echo $tr->translate('START_DATE') ?>:</div>
+	            				<div class="span4"><?php echo $frm->getElement('start_date');?></div>
+	            				<div class="span2"><?php echo $tr->translate('END_DATE') ?>:</div>
+	            				<div class="span4">
+	            					<?php echo $frm->getElement('end_date');?>
+	            				</div>
+	                        </div>
+	                        <div id="row-form">
+	                        	<div class="span2"><?php echo $tr->translate('PAY_STATUS') ?>:</div>
+	            				<div class="span4"><?php echo $frm->getElement('pay_status');?></div>
+	            				<div class="span4"></div>
+	                        	<div class="span2"><button type="submit" name="search" class="btn btn-primary"><i class="icon-edit icon-white"> </i> <?php echo $tr->translate('SEARCH'); ?> </button></div> 
+	                        </div>
+	            	</div>              
+                    <div class="block-fluid">
+                        <table class="fpTable datatable" cellpadding="0" cellspacing="0" width="100%" id="customers2">
+                            <thead>
+                            	<tr>
+									<th width="5%"><?php echo $tr->translate('NUM'); ?></th>
+		                        	<th width="10%"><?php echo $tr->translate('CHECK_BOX'); ?></th>
+		                        	 <th><?php echo $tr->translate('លេខកូដទំនិញទិញចូល'); ?></th>
+		                            <th><?php echo $tr->translate('ថ្ងៃលក់ទំនិញ'); ?></th>
+		                            <th><?php echo $tr->translate('ស្ថានការ'); ?></th>
+		                             <th><?php echo $tr->translate('ឈ្មោះអ្នកផ្គត់ផ្គង់ '); ?></th>
+		                             <th><?php echo $tr->translate('ប្រាក់ដុល្លារសរុប'); ?></th>
+		                        	<!-- <th width="10%" class="TAC"><?php //echo $tr->translate('ACTION'); ?></th> -->
+		                       </tr>
+                            </thead>
+                            <tbody>
+                            <?php $i = 1;?>
+                    		<?php foreach($this->getdata as $data){?>
+		                    	<tr class="odd gradeX">
+		                    		<td><?php echo $i++;?></td>
+		                        	<td><span class=""><input class="uniform" name="checkBox" value="<?php echo $data['order_id'];?>" type="checkbox"></span></td>
+		                        	<td><a href="<?php echo $edit_url?>/id/<?php echo $data['order_id'];?>"><?php echo $data['order'];?></a></td>
+		                        	<td><a href="<?php echo $edit_url?>/id/<?php echo $data['order_id'];?>"><?php echo $data['date_in'];?></a></td>
+		                        	<td><?php if($data['is_active']== 1){ echo "បង់ប្រាក់";}else {echo "ជំពាក់";} ?> 
+									</td>
+		                        	<td><?php echo $data['vendor_name'];?></td>
+		                       		<td><?php echo $data['all_total'];?></td>
+                        			<!-- <td>
+                        				<a href="<?php //echo $edit_url?>/id/<?php echo $data['order_id'];?>"><span class="icon-pencil"></span></a> 
+                                    	<?php if($data['is_active']== 1){?>                        
+                        				<button style="background:none; margin:0; padding:0;border:none;" type="submit" name="status" value="<?php echo $data['order_id'];?>" >
+                                        	<span class="icon-trash"></span>
+                                         </button>
+		                        		<?php }else {?>
+                                        <button style="background:none; margin:0; padding:0;border:none;" type="submit" name="unstatus" value="<?php echo $data['order_id'];?>" >
+		                        			<span class="icon-trash"></span>
+                                        </button>
+		                        		<?php }?>
+                                        
+                                        <!-- <a href="<?php //echo $delete_url?>/id/<?php //echo $data['order_id'];?>"><span class="icon-trash"></span></a> -->
+                                    <!-- </td> -->
+                                </tr> 
+                            <?php } ?>                   
+                            </tbody>
+                        </table>                    
+                    </div> 
+           		</div>            
+			</div>  
+    	</div> 
+    </div> 
+</form>

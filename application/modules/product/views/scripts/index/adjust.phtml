@@ -1,0 +1,172 @@
+<?php  
+	$session_lang = new Zend_Session_Namespace('lang');
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$frm = $this->frmSearch;
+	//$url_barcode = $this->url(array("module"=>"loan","controller"=>"product","action"=>"generate-barcode","product_code"=>$client['product_code']),null,true);
+?>
+<?php $session = new Zend_Session_Namespace('auth'); ?>
+<?php $add_url = $this->url(array('module'=>'product','controller'=>'index','action'=>'add'),null,true);?>
+<?php $edit_url = $this->url(array('module'=>'product','controller'=>'index','action'=>'edit'),null,true);?>  
+<style>
+dt{ display: none;}
+.btn{ margin-right: 5px!important;margin-left: 5px!important;} 
+.breadCrumb{ margin-top:5px;}
+.ui-pnotify,custom{display: none !important;}
+</style>
+<style>
+thead tr th{font-size: 13px; text-align: center !important;}
+td{font-size: 12px; text-align: center !important;}
+button{ margin-right: 5px;} td{ font-size:12px;} 
+.breadCrumb{ margin-top:5px;}
+</style> 
+<form class="form-horizontal" id="popup-validation" enctype="multipart/form-data" method="post">
+    <div class=" clearfix">    
+             
+    </div>
+    <div class="content">                                  
+            <div class="widget">
+                <div class="head">                    
+                    <div class="btn-group pull-left">
+                    	<h2><span class="icon-th"></span><?php echo $tr->translate('TABLE'); ?></h2>   
+                    </div>
+                    <div class="panel panel-default">
+                    	<div class="panel-heading">
+                    		<div  class="btn-group pull-right" style="margin-top:2px;">				
+									<a href="<?php echo $add_url;?>">
+									<button type="button" class="btn btn-primary "><span class="icon-plus-sign icon-white" ></span> <?php echo $tr->translate('NEW'); ?> </button>					
+									</a>
+									<button type="submit" name="update" class="btn btn-primary"><i class="icon-edit icon-white"> </i> <?php echo $tr->translate('UPDATE'); ?> </button>
+							</div>	             	     	                                         
+                         </div>                    
+                	</div>
+                <div style="clear:both"></div>
+                <div class="panel-body">                
+                    <div class="block-fluid">
+                    	<div class="row-form">
+                    		<div class="span1"><?php echo $tr->translate('SEARCH') ?>:</div>
+			                 <div class="span2"><?php echo $frm->getElement('txt_search');?></div> 							 
+			                 <div class="span3">
+			                 	<select id="add_item" name="add_item" onChange="getItemOrder();" class="select" style="width:100%" tabindex="4">
+									<?php echo $this->itemsOption; ?>
+								</select>
+			                 </div>
+			                 <div class="span3">
+			                 	<?php echo $frm->getElement('cat_id');?>
+			                 </div>
+			                 <div class="span3">
+			                 	<?php echo $frm->getElement('brand');?>
+			                 </div>
+			                 <div class="span1">
+			                 	<button type="submit" name="search" class="btn btn-primary"><i style="font-size:15px;" class="icon-search icon-white"> </i></button>
+			                 </div>
+	                    </div>
+					</div>
+	                    <div class="row-form">
+                        <table class="fpTable datatable" cellpadding="0" cellspacing="0" width="100%" id="customers2">
+                            <thead>
+                            	<tr>
+									<th width="3%"><?php if($session_lang->lang_id==2){ echo $tr->translate('NUM'); } else{ ?>N <sup> <u>o</u></sup><?php }?></th>
+		                            <th><?php echo $tr->translate('CHECK'); ?></th>
+		                            <th><?php echo $tr->translate('ITEM_NAME'); ?></th>
+		                            <th><?php echo $tr->translate('PRESENT_QTY'); ?></th>
+		                             <th><?php echo $tr->translate('NEW_UNIT_QTY'); ?></th>
+		                              <!--<th><?php //echo $tr->translate('UNIT_PRICE'); ?></th> -->
+		                            <th><?php echo $tr->translate('NEW_QTY'); ?></th>
+		                              <!-- <th><?php //echo $tr->translate('PRICE_PER_UNIT');?></th> -->
+		                               <th><?php echo $tr->translate('NEW_TOTAL_QTY'); ?></th>
+		                       </tr>
+                            </thead>
+                            <tbody>
+                            <?php $i = 0;?>
+                    		<?php 
+                    			foreach($this->getdata as $data){ 
+									$i = $i+1;
+                    		?>
+		                    	<tr class="odd gradeX">
+		                    		<td><?php echo $i;?></td>
+		                    		<td><input type="checkbox" class="checkbox" name="mfdid_<?php echo $i;?>" id="mfdid_<?php echo $i;?>" value="<?php echo $data['pro_id'];?>" OnChange="checkRow(<?php echo $i;?>)"/></td>
+		                        	<td><input type="hidden" name="item_id<?php echo $i;?>" value="<?php echo $data['pro_id'];?>" /><?php echo $data["item_code"]."-".$data['name_kh']."(".$data["item_size"].")<br />".$data['name_en']."(".$data["item_size"].")";?></td>
+		                        	<td><input readOnly="readonly" type="text" name="old_qty_<?php echo $i;?>" value="<?php echo $data['qty_onhand'];?>" /></td>
+		                        	<td><input type="text" name="unit_qty<?php echo $i;?>" id="unit_qty<?php echo $i;?>" value="0" onChange=" doTotal(<?php echo $i?>)" /><input type="hidden" name="qty_per_unit<?php echo $i;?>" id="qty_per_unit<?php echo $i;?>" value="<?php echo $data["qty_perunit"] ?>" /> </td>
+		                       		<td><input type="text" name="qty<?php echo $i;?>" id="qty<?php echo $i;?>" value="0" onChange=" doTotal(<?php echo $i?>)" /></td>
+		                       		<td><input readOnly="readOnly" type="text" name="total_qty<?php echo $i;?>" id="total_qty<?php echo $i;?>" value="0" /></td>
+                                </tr> 
+                            <?php } ?>                   
+                            </tbody>
+                        </table>    
+                        <input type="hidden" name="identity" id="identity" /> 
+                        <input type="hidden" name="id_record" id="id_record" /> 
+                        </div>               
+                    </div> 
+           		</div>            
+			</div>  
+    	</div> 
+    </div> 
+</form>
+
+<script>
+	jQuery(document).ready(function(){
+		//$('#identity').val(1);
+	 <?php foreach ($this->getdata as $key => $data){$inx = $key+1;?>
+			if(<?php echo $inx;?>!=1) {
+				var identity = $('#id_record').val();
+				$('#id_record').val(identity+','+<?php echo $inx;?>);
+			} else {$('#id_record').val(<?php echo $inx;?>);}
+			$('#unit_qty<?php echo $inx;?>').attr('disabled','disabled');
+			$('#qty<?php echo $inx;?>').attr('disabled','disabled');
+	   <?php }?>
+});
+	function checkRow(index){
+		control = document.getElementById('mfdid_'+index);
+		if(control.checked){
+			//alert(1);
+			$('#unit_qty'+index).removeAttr('disabled','disabled');
+			$('#qty'+index).removeAttr('disabled','disabled');
+			
+			var ids =$('#identity').val();
+			var arrays = ids.split(',');
+			for(var i=0;i<arrays.length;i++) {//calculate record row
+				if(arrays[i] == index) arrays.splice(i,1);
+				if($('#mfdid_'+index).attr('checked')){
+					if($("#identity").val()!="") {
+						$("#identity").val(ids+','+index);
+					}else { 
+						$("#identity").val(index);
+					}
+				 }else{
+					var strings = arrays.join(',');
+					$('#identity').val(strings);
+				}
+			}
+			//$('#sub_recive_amount_'+index).removeAttr('disabled','disabled');
+		}else{
+			var ids =$('#identity').val();
+			var arrays = ids.split(',');
+			for(var i=0;i<arrays.length;i++) {//calculate record row
+				if(arrays[i] == index) arrays.splice(i,1);
+				if($('#mfdid_'+index).attr('checked')){
+					if($("#identity").val()!="") {
+						$("#identity").val(ids+','+index);
+					}else { 
+						$("#identity").val(index);
+					}
+				 }else{
+					var strings = arrays.join(',');
+					$('#identity').val(strings);
+				}
+			}
+			//alert("ssds");
+			$('#unit_qty'+index).attr('disabled','disabled');
+			$('#qty'+index).attr('disabled','disabled');
+			//$('#sub_recive_amount_'+index).attr('disabled','disabled');
+		}
+	}
+	function doTotal(index){
+		var unut_qty = $('#unit_qty'+index).val();
+		var qty_per_unit = $('#qty_per_unit'+index).val();
+		var qty = $('#qty'+index).val();
+		sub_total = (parseFloat(unut_qty)*parseFloat(qty_per_unit))+parseFloat(qty);
+		
+		$('#total_qty'+index).val(sub_total);
+	}
+</script>

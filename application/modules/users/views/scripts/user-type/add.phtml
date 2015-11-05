@@ -1,0 +1,75 @@
+<?php $frmuser = $this->frmusers;
+$cancel_url = $this->url(array('module'=>'users','controller'=>'user-type','action'=>''),null,true);
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<style>
+dt{ display: none;}
+.btn{ margin-right: 5px!important;margin-left: 5px!important;} 
+.breadCrumb{ margin-top:5px;}
+</style>
+<form id="validate" enctype="multipart/form-data" method="post">
+    <div class="content">                
+        <div class="row-fluid">           
+            <div class="span12" style="margin:0 auto;">                                
+                <div class="widget">
+                    <div class="head">
+                        <div class="icon"><i class="icosg-bookmark1"></i></div>
+                        <h2><?php echo $tr->translate('FORM_ADD') ?></h2>
+                    </div>                                            
+                    
+                    <div class="block-fluid">
+                        <div class="row-form">
+                            <div class="span2"><?php echo $tr->translate('USER_TYPE') ?> :</div>
+                            <div class="span4">
+                                <?php echo $frmuser->getElement('user_type');?>
+                            </div>
+                            <div class="span2"><?php echo $tr->translate('STATUS') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmuser->getElement('status');?>
+                            </div>
+                        </div>
+                        <div class="row-form">                               
+                            <div class="span12" class="toolbar bottom TAR" style="margin-top:20px;">
+                                 <div class="btn-group pull-right" style="margin-top:2px;">
+                                   <button  type="submit" id="save" name="save" class="btn btn-primary btn-sm btn-grad"><i class="icon-share icon-white"> </i><?php echo $tr->translate('SAVE') ?></button>
+                                  <button style=" margin-right: 5px!important;" type="submit" id="save_close" name="save_close" class="btn btn-primary btn-sm btn-grad"><i class="icon-share icon-white"> </i> <?php echo $tr->translate('SAVE_CLOSE') ?></button>                        		
+                                  <a href="<?php echo $cancel_url; ?>"><button​ type="button" class="btn btn-danger btn-sm btn-grad"><i class="icon-remove-sign icon-white"> </i><?php echo $tr->translate('CANCEL') ?></button></a>  	
+                                </div> 
+                            </div>
+                        </div>
+                    </div>                 
+                </div>
+            </div>
+        </div>                        
+    </div>  
+</form>
+<script>
+<?php $getfillter_add =  $this->url(array('module'=>'users','controller'=>'user-type','action'=>'getfillteradd')); ?>
+function getfillterUserType(){
+	user_type = $('#user_type').val();
+	$.ajax({
+		url:"<?php echo $getfillter_add;?>",
+		type:"post",
+		data:{'user_type':user_type},
+		success: function(data){	
+			user_type = $.parseJSON(data);					
+			if(user_type!=null){
+				 for (var index = 1; index <= user_type.length; index++) {
+					 alert(user_type[index-1]['user_type']+" is Already Exist!!");
+				}
+				 document.getElementById("user_type").style.borderColor="#FF0000";
+				 document.getElementById("user_type").style.color="#FF0000";
+				 document.getElementById("save").setAttribute('disabled', 'disabled');
+				 document.getElementById("save_close").setAttribute('disabled', 'disabled');
+			}else{
+				document.getElementById("save").disabled = false;
+				document.getElementById("save_close").disabled = false;
+				document.getElementById("user_type").style.borderColor="";
+				document.getElementById("user_type").style.color="#000";
+			}
+		},
+		error:function(){
+		}
+	});
+}
+</script>

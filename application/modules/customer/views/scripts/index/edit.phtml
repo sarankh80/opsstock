@@ -1,0 +1,170 @@
+<?php $frmcate = $this->frmcate;
+$session_user = new Zend_Session_Namespace('auth');
+$cancel_url = $this->url(array('module'=>'customer','controller'=>'index','action'=>''),null,true);
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<style>
+dt{ display: none;}
+.btn{ margin-right: 5px!important;margin-left: 5px!important;} 
+.breadCrumb{ margin-top:5px;}
+</style>
+<script type="text/javascript">
+<!--
+	function Getacademic(){
+		date= new Date();		
+		year1 = date.getFullYear();
+		year2 = date.getFullYear()+1;
+		sum = year1 +"  -  "+ year2;
+		$("#academic_year").attr("value",sum);
+	}
+//-->
+</script>
+<form id="validate" enctype="multipart/form-data" method="post">
+    <div class="content">                
+        <div class="row-fluid">           
+            <div class="span12">                                
+                <div class="widget">
+                    <div class="head">
+                        <div class="icon"><i class="icosg-bookmark1"></i></div>
+                        <h2><?php echo $tr->translate('FORM_ADD') ?></h2>
+                    </div>                                            
+                    
+                    <div class="block-fluid">
+                        <div class="row-form"> 
+                            <div class="span2"><?php echo $tr->translate('CUSTOMER_CODE') ?> :</div>
+                             <div class="span10"> 
+                                <?php echo $frmcate->getElement('customer_code');?>
+                             </div>
+                             
+                         </div>
+                        <div class="row-form">                            
+                            <div class="span2"><?php echo $tr->translate('NAME_EN') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('name_en');?>
+                            </div>
+                            <div class="span2"><?php echo $tr->translate('NAME_KM') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('name_km');?>
+                            </div>
+                        </div>
+                        
+                         <div class="row-form">  
+                         	<div class="span2"><?php echo $tr->translate('CONTACT_NAME') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('contact');?>
+                            </div>                          
+                            <div class="span2"><?php echo $tr->translate('COMPANY') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('company');?>
+                            </div>
+                        </div>
+                        <div class="row-form">  
+                         	<div class="span2"><?php echo $tr->translate('PHONE_NUMBER') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('tel');?>
+                            </div>                          
+                            <div class="span2"><?php echo $tr->translate('FAX') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('fax');?>
+                            </div>
+                        </div>
+                        
+                        <div class="row-form">  
+                         	<div class="span2"><?php echo $tr->translate('ADDRESS') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('address');?>
+                            </div> 
+                            <div class="span2"><?php echo $tr->translate('EMAIL') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('email');?>
+                            </div>                          
+                        </div>
+                         <div class="row-form">  
+                         	<div class="span2"><?php echo $tr->translate('DESCRIPTION') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('description');?>
+                            </div>    
+                            
+                            <div class="span2"><?php echo $tr->translate('STATUS') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('status');?>
+                            </div>                    
+                        </div>
+                        <div class="row-form">
+                        	
+                            <div class="span2"><?php echo $tr->translate('ICON') ?>:</div>
+                            <div class="span4">
+		                        <div class="fileupload fileupload-new pull-left" data-provides="fileupload">
+		                            <div class="fileupload-new thumbnail" style="width: 50px; height: 50px;">
+		                                <img src="<?php echo $this->baseUrl();?>/img/noimg_s.gif"/>
+		                            </div>
+		                            <div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px;"></div>
+		                            <span class="btn btn-file btn-primary">
+		                                <span class="fileupload-new">Select image</span>
+		                                <span class="fileupload-exists">Change</span><input type="file" name="icon" />
+		                            </span>
+		                            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+		                        </div>                        
+                                <?php //echo $frmcate->getElement('icon');?>
+                            </div>
+                        </div>
+                        <div class="row-form">                            
+                            <div class="span12" class="toolbar bottom TAR" style="margin-top:20px;">
+                                 <div class="btn-group pull-right" style="margin-top:2px;">
+                                   <button  type="submit" id="save" name="save" class="btn btn-primary btn-sm btn-grad"><i class="icon-share icon-white"> </i><?php echo $tr->translate('SAVE') ?></button>
+                                  <button style=" margin-right: 5px!important;" type="submit" id="save_close" name="save_close" class="btn btn-primary btn-sm btn-grad"><i class="icon-share icon-white"> </i> <?php echo $tr->translate('SAVE_CLOSE') ?></button>                        		
+                                  <a href="<?php echo $cancel_url; ?>"><button type="button" class="btn btn-danger btn-sm btn-grad"><i class="icon-remove-sign icon-white"> </i><?php echo $tr->translate('CANCEL') ?></button></a>  	
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>                 
+        </div>                        
+    </div>  
+</form>
+<script>
+<?php $getfillter_add =  $this->url(array('module'=>'brand','controller'=>'index','action'=>'getfillteradd')); ?>
+function GetBrandName(type){
+	if(type==1){
+		name = $('#name_en').val();
+	}
+	if(type==2){
+		name = $('#name_km').val();
+	}
+	$.ajax({
+		url:"<?php echo $getfillter_add;?>",
+		type:"post",
+		data:{'name':name,'type':type},
+		success: function(data){	
+			catname = $.parseJSON(data);
+			//alert(catname);				
+			if(catname!=""){
+					for (var index = 1; index <= catname.length; index++) {
+						 alert(catname[index-1]['brand_name']+" is Already Exist!!");
+					}
+					if(type==1){
+						document.getElementById("name_en").style.borderColor="#FF0000";
+		 				document.getElementById("name_en").style.color="#FF0000";
+					}
+					if(type==2){
+						document.getElementById("name_km").style.borderColor="#FF0000";
+		 				document.getElementById("name_km").style.color="#FF0000";
+					}
+				 document.getElementById("save").setAttribute('disabled', 'disabled');
+				 document.getElementById("save_close").setAttribute('disabled', 'disabled');
+			}else{
+				document.getElementById("save").disabled = false;
+				document.getElementById("save_close").disabled = false;
+				document.getElementById("name_en").style.borderColor="";
+ 				document.getElementById("name_en").style.color="";
+ 				document.getElementById("name_km").style.borderColor="";
+ 				document.getElementById("name_km").style.color="";
+			}
+		},
+		error:function(e){
+// 			alert(e);
+		}
+	});
+}
+</script>

@@ -1,0 +1,60 @@
+<?php 
+$data = $this->barcode;
+print_r($data);
+//$url_barcode = $this->url(array("module"=>"product","controller"=>"index","action"=>"generate-barcode","product_code"=>$barcode),null,true);
+?>
+<div class="content" id="content">      
+   <div class="row-fluid">          
+       <div class="span12">                
+			<div class="widget">
+				<div class="block-fluid" >
+					<div id="print_blog">
+						<div class="row-form" style="font-size: 18px;">
+							<?php //echo $data['name_kh']."-".$data['name_en']." ".$data['item_code'];?>
+						</div>
+					<div class="row-form">
+					<table>
+					<?php for($i=1;$i<3;$i++){?>
+						<tr style="height: 73px;">
+							<?php 
+									foreach ($data as $key => $rs){
+										$inx = $key+1
+										
+								?>
+							
+									<td style="padding-right: 30px;"><?php echo $rs["item_code"];?></td>
+							
+						<?php }?>
+						</tr>
+					<?php }?>
+					</table>
+					</div>
+					</div>
+					
+					<div class="row-form">
+						<button type="button" name="print" id="print" onClick="Clickheretoprint();" class="btn btn-primary"><i class="icon-edit icon-white"> </i> Print </button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<<script type="text/javascript">
+function Clickheretoprint()
+{ 
+		     var disp_setting="toolbar=yes,location=no,directories=yes,menubar=yes,"; 
+		         disp_setting+="scrollbars=yes,width=600, height=500, left=100, top=25"; 
+		     var content_vlue = document.getElementById("print_blog").innerHTML; 
+		     
+		     var docprint=window.open("","",disp_setting); 
+		      docprint.document.open(); 
+		      docprint.document.write('<html><head><title>Group</title>'); 
+		      docprint.document.write('</head><body onLoad="self.print()" style=" margin:0px; font-family:Verdana; font-size:10px;"><center>');          
+		      docprint.document.write(content_vlue);          
+		      docprint.document.write('</center></body></html>'); 
+		      docprint.document.close(); 
+		      docprint.focus(); 
+}
+
+</script>

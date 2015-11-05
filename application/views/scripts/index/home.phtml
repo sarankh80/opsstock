@@ -1,0 +1,787 @@
+<?php $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$product = $this->getdata;
+	$order = $this->order;
+	$frm = $this->frm;
+	$FrmOrderUpdate =$this->FrmSaleOrderUpdate;
+	//print_r($order);
+	$session = new Zend_Session_Namespace('auth');
+	$user = $session->fullname;
+	$session_lang = new Zend_Session_Namespace('lang');
+?>
+<style>
+dt{ display: none;}
+.btn{ margin-right: 5px!important;margin-left: 5px!important;} 
+.breadCrumb{ margin-top:5px;}
+.ui-pnotify,custom{display: none !important;}
+</style>
+<script src="<?php echo $this->baseUrl();?>/js/atn-cart.js"></script>
+<form id="order_form" enctype="multipart/form-data" method="post">
+    <div class="content">      
+        <div class="row-fluid">  
+            <div class="span6">                
+                <div class="widget">
+                    <div class="head dark">
+                        <div class="icon"><i class="icos-home"></i></div>
+                        <h2><?php echo $tr->translate('MENU') ?></h2>
+                    </div>                        
+                    <div class="block-fluid">
+                    <?php $i = 1; foreach ($product as $rsAll){?>
+                    <?php if($rsAll['cate_id']== $i){ ?>
+                    <?php if($session_lang->lang_id==1) {?> 
+                    <h4 style="text-align: center;"><?php echo $tr->translate($rsAll['cat_name_en']); ?></h4>
+                    	<div class="middle">    
+							<?php 
+								$script_products ="";
+								$script_product_prices="";
+								$script_proId="";
+								$script_currencyId="";
+								$script_currency_symbol="";
+								$script_rate="";
+		
+									foreach ($product as $rs){
+										$script_products.="products[".($rs["pro_id"])."]=\"".($rs["name_en"].'<br>'.$rs["name_kh"])."\";\n";
+										$script_proId.="proId[".($rs["pro_id"])."]=\"".($rs["pro_id"])."\";\n";
+										$script_product_prices.="product_prices[".($rs["pro_id"])."]=\"".($rs["price_per_qty"])."\";\n";
+										$script_currencyId.="currency_id[".($rs["pro_id"])."]=\"".($rs["cu_id"])."\";\n";
+										$script_currency_symbol.= "currency_symbol[".($rs["pro_id"])."]=\"".($rs["cu_icon"])."\";\n";
+										$script_rate.= "rate[".($rs["pro_id"])."]=\"".($rs["rate"])."\";\n";
+								?>
+							<?php if($rs['cat_id']== $rsAll['cate_id']){?>
+				                <div class="informer">
+				                    <a href="javascript:AddToCart(<?php echo $rs["pro_id"];?>)">
+				                    	
+				                        <span><img alt="" src="<?php echo $this->baseUrl();?>/icon/<?php echo $rs["icon"]?>" width="70px" height="65px"></span>
+				                        <span class="name"><?php echo $rs["name_en"];?></span>
+				                        <span class="price"><?php echo $rs["price_per_qty"]." ".$rs["cu_icon"]; ?></span>
+				                        
+				                    </a>
+				                </div>
+				                <?php }?>
+							<?php }?>
+				            <script>
+				            var grenTotal_reil = '<?php echo $tr->translate('TOTAL')."(៛)";?>';
+				            var grenTotal_dollar = '<?php echo $tr->translate('TOTAL')."($)";?>';
+				            var table_name = '<?php echo $tr->translate('TOTAL');?>';
+				            var products=Array();
+							<?php echo $script_products;?>
+							
+							var proId=Array();
+							<?php echo $script_proId;?>
+							
+							var product_prices=Array();
+							<?php echo $script_product_prices;?>
+
+							var currency_id=Array();
+							<?php echo $script_currencyId;?>
+
+							var currency_symbol=Array();
+							<?php echo $script_currency_symbol;?>
+							
+							var rate=Array();
+							<?php echo $script_rate;?>
+							</script>       
+			        	</div><!-- end -->
+			        	<?php }else{?>
+			        	<h4 style="text-align: center;"><?php echo $tr->translate($rsAll['cat_name_km']); ?></h4>
+                    	<div class="middle">    
+							<?php 
+								$script_products ="";
+								$script_product_prices="";
+								$script_proId="";
+								$script_currencyId="";
+								$script_currency_symbol="";
+								$script_rate="";
+		
+									foreach ($product as $rs){
+										$script_products.="products[".($rs["pro_id"])."]=\"".($rs["name_en"].'<br>'.$rs["name_kh"])."\";\n";
+										$script_proId.="proId[".($rs["pro_id"])."]=\"".($rs["pro_id"])."\";\n";
+										$script_product_prices.="product_prices[".($rs["pro_id"])."]=\"".($rs["price_per_qty"])."\";\n";
+										$script_currencyId.="currency_id[".($rs["pro_id"])."]=\"".($rs["cu_id"])."\";\n";
+										$script_currency_symbol.= "currency_symbol[".($rs["pro_id"])."]=\"".($rs["cu_icon"])."\";\n";
+										$script_rate.= "rate[".($rs["pro_id"])."]=\"".($rs["rate"])."\";\n";
+								?>
+							<?php if($rs['cate_id']== $rsAll['cate_id']){?>
+				                <div class="informer">
+				                    <a href="javascript:AddToCart(<?php echo $rs["pro_id"];?>)">
+				                    	
+				                        <span><img alt="" src="<?php echo $this->baseUrl();?>/icon/<?php echo $rs["icon"]?>" width="70px" height="65px"></span>
+				                        <span class="name"><?php echo $rs["name_kh"];?></span>
+				                        <span class="price"><?php echo $rs["price_per_qty"]." ".$rs["cu_icon"]; ?></span>
+				                        
+				                    </a>
+				                </div>
+				                <?php }?>
+							<?php }?>
+				            <script>
+				            var grenTotal_reil = '<?php echo $tr->translate('TOTAL')."(៛)";?>';
+				            var grenTotal_dollar = '<?php echo $tr->translate('TOTAL')."($)";?>';
+				            var table_no = '<?php echo $tr->translate('NUM');?>';
+				            var table_prodcut = '<?php echo $tr->translate('PRODUCT');?>';
+				            var table_Uni_Price = '<?php echo $tr->translate('UNIT_PRICE');?>';
+				            var table_Qty = '<?php echo $tr->translate('QTY');?>';
+				            var table_Amount = '<?php echo $tr->translate('AMOUNT');?>';
+				            var table_Delete = '<?php echo $tr->translate('DELETE');?>';
+				            var products=Array();
+							<?php echo $script_products;?>
+							
+							var proId=Array();
+							<?php echo $script_proId;?>
+							
+							var product_prices=Array();
+							<?php echo $script_product_prices;?>
+
+							var currency_id=Array();
+							<?php echo $script_currencyId;?>
+
+							var currency_symbol=Array();
+							<?php echo $script_currency_symbol;?>
+							
+							var rate=Array();
+							<?php echo $script_rate;?>
+							</script>       
+			        	</div><!-- end -->
+                    <?php }  }?>	
+			        <?php $i++; }?>	       
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="span6">                
+				<div class="widget">
+                    <div class="head dark">
+                        <div class="icon"><i class="icos-newtab"></i></div>
+                        <h2><?php echo $tr->translate('ORDER_AND_INVOICE') ?></h2>
+                    </div>  
+                    <div class="block-fluid tabbable">                    
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab1" data-toggle="tab">
+                            	<i class="icon-tags"></i> <?php echo $tr->translate('ORDER'); ?>
+                            </a></li>
+                            <li><a href="#tab2" data-toggle="tab"><i class="icon-list"></i> <?php echo $tr->translate('LIST_INVOICE'); ?></a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab1">
+                            	<div id="popup" class="alert alert-warning"></div>
+	                            <div class="block-fluid">
+	                            	<div class="row-form">
+	                            		<div class="span2"></div>
+			                            <div class="span2"></div>
+			                            <div class="span4"><?php echo $tr->translate('ORDER_NO') ?>:</div>
+			                            <div class="span4"><?php echo $frm->getElement('order_no');?></div> 
+	                            	</div>
+		                            <div class="row-form">
+			                            <div class="span2"><?php echo $tr->translate('TABLES') ?>:</div>
+			                            <div class="span4">
+			                                <?php echo $frm->getElement('table');?>
+			                            </div>
+			                            <div class="span2"><?php echo $tr->translate('DATE') ?>:</div>
+			                            <div class="span4">
+			                            	<div class="input-prepend input-append">
+				                                <?php echo $frm->getElement('date');?>  
+				                                <span class="add-on" style="right"><i class="icon-calendar"></i></span>                              
+				                          </div>  
+			                                <?php //echo $frm->getElement('dates');?>
+			                            </div>
+			                        </div>
+			                        <div class="row-form">
+			                            <div id="Cart">
+											<?php echo $tr->translate('PRODUCT_EMPTY') ?>
+										</div>
+										<input type="hidden" name="identity" id="identity">
+			                        </div>
+			                        
+			                        <div class="row-form">
+			                        
+			                            <div class="span6" style="float: right;">
+			                            	<button id="save" type="submit" class="btn btn-primary btn-sm btn-grad" name="save"><i class="icon-share icon-white"></i> Save</button>
+			                            	<button id="saveprint" type="button" class="btn btn-success" Onclick="Clickheretoprint();"><i class="icon-print icon-white"></i> Save & Print</button>
+			                            	<!--  <button type="button" class="btn btn-danger" onclick="clearAjaxCart();"><i class="icon-remove icon-white"></i> Cancel</button>-->
+			                            	
+			                            </div>
+			                        </div>
+			                    </div> 
+			                    
+			                    <div class="row-fluid" style="display: none">
+			                    	<div  id="printShow" style="display: block;">
+			                    		<div class="row-form" style="width:100%; padding:0;">
+			                    			<div class="span6" style="width:40%; padding:0;"><h1>WELCOME</h1></div>
+			                    		</div>
+			                    		<div style="height: 20px; clear:both;" ></div>
+			                    		<div class="row-form" style="width:100%; padding:0;">
+			                    		<table style="width: 100%; border: 0;position: relative;padding: 0px;margin: 0px;border-spacing: 0px;border-collapse: collapse;">
+			                    			<tr class="odd gradeX" style="font-size: 9px;">
+			                    				<td width="20%"></td>
+			                    				<td width="30%"></td>
+			                    				<td style="width:20%"><label><?php echo $tr->translate('ORDER_NO') ?>:</label></td>
+			                    				<td align="right" width="30%"><label  for="myalue" id="lb_reciept"></label></td>
+			                    			</tr>
+			                    			<tr class="odd gradeX" style="font-size: 9px;">
+			                    				<td><label id="lb_cashier"><?php echo $tr->translate('CASHIER') ?> :</label></td>
+			                    				<td><label id="lb_cashier_name"></label></td>
+			                    				<td style=""><label><?php echo $tr->translate('TABLES') ?> :</label></td>
+			                    				<td align="right"><label  for="myalue" id="lb_table"></label></td>
+			                    			</tr>
+			                    			<tr class="odd gradeX" style="font-size: 9px;">
+			                    				<td></td>
+			                    				<td></td>
+			                    				<td style=""><label><?php echo $tr->translate('DATE') ?> :</label></td>
+			                    				<td align="right"><label id="lb_date"></label><td>
+			                    			</tr>
+			                    		</table>
+			                    		</div>
+			                    		<div style="height: 20px;"></div>
+			                    		<div id="print">
+				                        	<?php echo $tr->translate('PRODUCT_EMPTY') ?>
+			                    		</div>
+			                    		</div>
+			                        </div> 
+		                    </div>
+                            <div class="tab-pane" id="tab2">
+                               <div class="widget">
+				                <div class="head">  
+				                    <div class="btn-group pull-left">
+				                    	<h2><span class="icon-th"></span><?php echo $tr->translate('TABLE') ?> </h2>   
+				                    </div>
+				                <div style="clear:both"></div>
+				                <div class="panel-body">                
+				                    <div class="block-fluid">
+				                        <table class="fpTable datatable" cellpadding="0" cellspacing="0" width="100%" id="customers2">
+				                            <thead>
+				                                <tr>
+				                                	<th width="25%"><?php echo $tr->translate('NUM') ?></th>
+				                                    <th width="25%"><?php echo $tr->translate('ORDER_NO') ?></th>
+				                                    <th width="20%"><?php echo $tr->translate('TABLES') ?></th>
+				                                    <th width="20%"><?php echo $tr->translate('TOTAL') ?></th>
+				                                    <th width="20%"><?php echo $tr->translate('CASHIER') ?></th>
+				                                    <th width="15%" class="TAC"><?php echo $tr->translate('DATE') ?></th>
+				                                </tr>
+				                            </thead>
+				                            <tbody>
+				                            <?php $i=1; if($order!=""){
+				                            		foreach ($order as $row){ ?>
+														
+							                                <tr>
+							                                	<td align="center"><?php echo $i++;?></td>
+							                                    <td><a id="order_id" href="#fModal" data-toggle="modal" data-index="<?php echo $row["so_id"]?>"><?php echo $row["order_no"];?></a></td>
+							                                    <td><?php echo $row["name_en"];?></td>
+							                                    <td><span class="label label-important"><?php echo number_format($row["total_reil"],2);?> ៛</span></td>
+							                                    <td><?php echo $user;?></td>
+							                                    <td><?php echo $row["date"];?></td>
+							                                </tr>
+							                             
+											<?php }
+				                            }?>
+				                            </tbody>
+				                        </table>                    
+				                    </div> 
+				           		</div>
+				           		<div id="fModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow: hidden; width:100%;left:20.5%;right:0;height:100%;top:40.5%;bottom:0;" >
+						            <div class="modal-dialog">
+		    							<div class="modal-content">
+								            <div class="modal-header">
+								                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onClick="clearAjaxData();">x</button>
+								                <h3 id="myModalLabel"><?php echo $tr->translate('FORM_EDIT') ?></h3>
+								            </div>
+								            <div class="modal-body">        
+									            <div class="row-fluid">
+									                <div class="block-fluid">
+									                    <div class="row-form">
+						                            		<div class="span2"></div>
+								                            <div class="span4"></div>
+								                            <div class="span2"><?php echo $tr->translate('ORDER_NO') ?>:</div>
+								                            <div class="span4"><?php echo $FrmOrderUpdate->getElement('saleorder_nos');?></div> 
+					                            		</div>
+							                            <div class="row-form">
+								                            <div class="span2"><?php echo $tr->translate('TABLE') ?>:</div>
+								                            <div class="span4">
+								                                <?php echo $FrmOrderUpdate->getElement('tables');?>
+								                            </div>
+								                            <div class="span2"><?php echo $tr->translate('DATE') ?>:</div>
+								                            <div class="span4">
+									                                <?php echo $FrmOrderUpdate->getElement('dates');?>  
+								                            </div>
+								                        </div>
+								                        <div class="row-form">
+								                            <div class="span2"><?php echo $tr->translate('PRODUCT') ?>:</div>
+								                            <div class="span10">
+								                            	<select id="add_item" name="add_item" onChange="getItemOrder();" class="" tabindex="4">
+																	<?php echo $this->itemsOption; ?>
+																</select>
+								                                <?php //echo $FrmOrderUpdate->getElement('product');?>
+								                            </div>
+								                        </div>
+									                    
+										                <div class="row-form">
+												              <table cellpadding="0" cellspacing="0" width="100%" id="order_item">
+												                    <thead>
+																		<tr style="font-weight: bold;">
+																			<td><?php echo $tr->translate('NUM') ?></td>
+																			<td><?php echo $tr->translate('PRODUCT') ?></td>
+																			<td><?php echo $tr->translate('PRICE') ?></td>
+																			<td><?php echo $tr->translate('QTY') ?></td>
+																			<td><?php echo $tr->translate('AMOUNT') ?> </td>
+																			<td></td>
+																		</tr>
+																	</thead>
+																</table> 
+																<div id="subtotal"></div>
+													    </div>     
+									                </div>
+									            </div>  
+								            	<input type="hidden" id="id_record" name="id_record"/>
+								            	<input type="hidden" id="update_id" name="update_id"/>
+								            	<!-- Print Update Blog -->
+					        
+					        <div class="row-fluid" style="display: none">
+			                    	<div id="updatePrintShow" style="display: none;">
+			                    		<div class="row-form" style="width:100%; padding:0;">
+			                    			<div class="span6" style="width:40%; padding:0;"> <h1>WELCOME</h1></div>
+			                    		</div>
+			                    		<div style="height: 20px; clear:both;" ></div>
+			                    		<div class="row-form" style="width:100%; padding:0;">
+			                    		<table style="width: 100%; border: 0;position: relative;padding: 0px;margin: 0px;border-spacing: 0px;border-collapse: collapse;">
+			                    			<tr class="odd gradeX" style="font-size: 9px;">
+			                    				<td width="20%"></td>
+			                    				<td width="30%"></td>
+			                    				<td style="width:20%"><label><?php echo $tr->translate('ORDER_NO') ?> :</label></td>
+			                    				<td align="right" width="30%"><label  for="myalue" id="lb_reciept_update"></label></td>
+			                    			</tr>
+			                    			<tr class="odd gradeX" style="font-size: 9px;">
+			                    				<td><label id="lb_cashier"><?php echo $tr->translate('CASHIER') ?>:</label></td>
+			                    				<td><label id="lb_cashier_name_update"></label></td>
+			                    				<td style=""><label><?php echo $tr->translate('TABLES') ?>:</label></td>
+			                    				<td align="right"><label  for="myalue" id="lb_table_update"></label></td>
+			                    			</tr>
+			                    			<tr class="odd gradeX" style="font-size: 9px;">
+			                    				<td></td>
+			                    				<td></td>
+			                    				<td style=""><label><?php echo $tr->translate('DATE') ?> :</label></td>
+			                    				<td align="right"><label id="lb_date_update"></label><td>
+			                    			</tr>
+			                    		</table>
+			                    		</div>
+			                    		<div style="height: 20px;"></div>
+			                    		<div id="updatePrintCart">
+				                        	<table style="font-size:10px;width: 100%; border:0 0 1px 0 solid #DDD;position: relative;padding: 0px;margin: 0px;border-spacing: 0px;border-collapse: collapse;" id="order_item_update">
+												<thead>
+													<tr style="font-weight: bold;border-bottom: 1px solid #DDD;font-size: 9px !important;">
+														<td><?php echo $tr->translate('NUM') ?></td>
+														<td><?php echo $tr->translate('PRODUCT') ?></td>
+														<td><?php echo $tr->translate('PRICE') ?></td>
+														<td><?php echo $tr->translate('QTY') ?></td>
+														<td><?php echo $tr->translate('AMOUNT') ?> </td>
+													</tr>
+												</thead>
+											</table> 
+											<div id="subtotalUpdate"></div>
+			                    		</div>
+			                    		</div>
+			                        </div>
+								  </div>                 
+								            <div class="modal-footer">
+								                <button type="submit" class="btn btn-primary"  name="saveUpdate">Save updates</button> 
+								                <button type="button" class="btn btn-primary" onclick="printUpdate();">Updates & Print</button> 
+								                <button class="btn btn-warning" data-dismiss="modal" aria-hidden="true" onClick="clearAjaxData();">Close</button>            
+								            </div>
+							            
+							       </div>
+						       </div>
+					        </div> 
+					        
+					                     
+							</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                  
+            </div>          
+        </div>                  
+    </div>
+    </div>  
+</form>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+// 	var cart = $('#Cart').val();
+// 	//alert(cart);
+// 	if(cart==""){
+// 		var cart = $('#Cart').val();
+// 	 $('#save').attr('disabled',true);
+// 	 $('#saveprint').attr('disabled',true);
+// 	}
+});				                           
+function clearAjaxCart(){
+	   //$('.row_order').remove();
+	   $('#tb_cart').remove();
+	   $('#print_cart').remove();
+}
+   function Clickheretoprint()
+   { 
+	   var table = $('#table').val();
+	   if(table==0){
+		   alert("Please Select Table First");
+	   }else{
+			 getValuePrint();
+		     var disp_setting="toolbar=yes,location=no,directories=yes,menubar=yes,"; 
+		         disp_setting+="scrollbars=yes,width=600, height=500, left=100, top=25"; 
+		     var content_vlue = document.getElementById("printShow").innerHTML; 
+		     
+		     var docprint=window.open("","",disp_setting); 
+		      docprint.document.open(); 
+		      docprint.document.write('<html><head><title>Group</title>'); 
+		      docprint.document.write('</head><body onLoad="self.print()" style=" margin:0px; font-family:Verdana; font-size:10px;"><center>');          
+		      docprint.document.write(content_vlue);          
+		      docprint.document.write('</center></body></html>'); 
+		      docprint.document.close(); 
+		      docprint.focus(); 
+		      hideDialog();
+	  }
+   }
+   function hideDialog() {		
+		$("#printShow").hide();
+		submitData();
+	}
+   
+   function submitData(){
+	   a = $('#order_form').serialize();
+		var url_submit = '<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'ajax-add-order')); ?>';
+		$.ajax({
+			type:'POST',
+	   		url:url_submit,
+	   		data:$('#order_form').serialize(),
+	   		success: function(){		
+				},
+				error: function(e) {
+					window.location.href ="<?php echo $this->baseUrl();?>/index/home";
+				}
+			});
+	}
+   function submitUpdate(){
+	   a = $('#order_form').serialize();
+		var url_submit = '<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'ajax-update-order')); ?>';
+		$.ajax({
+			type:'post',
+	   		url:url_submit,
+	   		data:$('#order_form').serialize(),
+	   		success: function(){	
+				},
+				error: function(e) {
+					window.location.href ="<?php echo $this->baseUrl();?>/index/home";
+				}
+			});
+	}
+   function getValuePrint(){
+	   
+		   var table_name = $("#table option:selected").text();  
+		   var date = $("#datepicker").val(); 
+		   var reciept = $("#order_no").val();
+		   document.getElementById('lb_table').innerHTML = table_name;
+		   document.getElementById('lb_date').innerHTML = date;
+		   document.getElementById('lb_reciept').innerHTML = reciept;
+		   document.getElementById('lb_cashier_name').innerHTML = '<?php echo $user?>';
+   }
+
+   function printUpdate()
+   { 
+			 //getValuePrint();
+		     var disp_setting="toolbar=yes,location=no,directories=yes,menubar=yes,"; 
+		         disp_setting+="scrollbars=yes,width=600, height=500, left=100, top=25"; 
+		     var content_vlue = document.getElementById("updatePrintShow").innerHTML; 
+		     
+		     var docprint=window.open("","",disp_setting); 
+		      docprint.document.open(); 
+		      docprint.document.write('<html><head><title>Group</title>'); 
+		      docprint.document.write('</head><body onLoad="self.print()" style=" margin:0px; font-family:Verdana; font-size:10px;"><center>');          
+		      docprint.document.write(content_vlue);          
+		      docprint.document.write('</center></body></html>'); 
+		      docprint.document.close(); 
+		      docprint.focus(); 
+		      submitUpdate();
+		      //
+   }
+   <?php $getfillter_add =  $this->url(array('module'=>'order','controller'=>'index','action'=>'get-order-by-id')); ?>
+   
+   function getOrder(id){
+   	var ids =  id;
+   	var cart_html1="";
+   	template="";
+   	subtotal=0;
+   	var option = '<?php echo $this->itemsOption;?>';
+   	$.ajax({
+   		url:"<?php echo $getfillter_add;?>",
+   		//type:"post",
+   		data:{'ids':ids},
+   		cache:'false',
+   	    type:'POST',
+   	    dataType:"json",
+   		success: function(order){	
+   			//order = $.parseJSON(data);
+   			if(order!=""){
+   	   			for(var i = 1; i <= order.length; i++){
+   	   	   			var UnitPrice = parseFloat(order[i-1]['unit_price']).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+   	   	   			var TotalAmount = parseFloat(order[i-1]['unit_price']*order[i-1]['qty']).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+						//alert(TotalAmount);
+	   	   			template='<tr class="row_order" id="row_order_'+i+'" style="height:33px;">';
+		   	   	   	template+='<td>'+i+'</td>';
+		   	   	   	template+='<td><input type="hidden" value="'+order[i-1]['pro_id']+'" id="pro_id_'+i+'"/><select id="item_id_'+i+'" onChange="getProductPrice('+i+');" class="validate[required]" name="item_id_'+i+'" >'+option+'</select></td>';
+		   	   	   	template+='<td><input type="hidden" id="cu_id_'+i+'" value="'+order[i-1]['cu_id']+'"><input type="hidden" id="rate_'+i+'" value="'+order[i-1]['rate']+'"><input type="hidden" value="'+order[i-1]['unit_price']+'" class="validate[required,custom[number]]" id="price_'+i+'" name="price_'+i+'" /><label id="lbprice_'+i+'">'+UnitPrice+order[i-1]['cu_icon']+'</label></td>';
+		   	   	   	template+='<td width="60px"><input type="text" onBlur="calculateTotal();" class="validate[required,custom[number]] input" value="'+order[i-1]['qty']+'" id="qty'+i+'" name="qty'+i+'"/></td>';
+		   	   	   	template+='<td><input type="hidden" class="input" value="'+order[i-1]['unit_price']*order[i-1]['qty']+'" readonly="readonly"  id="total'+i+'" name="total'+i+'" /></span><div style="float:left" id="total_'+i+'">'+TotalAmount+'</div><label id="icon_'+i+'">'+order[i-1]['cu_icon']+'</lebal></td>';
+		   	   	   	template+='<td><span style="cursor:pointer" onclick="deleteRecord('+i+')" class="icon-trash"></span></td>';
+		   	   	   	template+="</tr>";
+		   	   	$('#order_item').append(template);
+				$('#tables').val(order[i-1]['tab_id']).trigger('change');
+		   		$('#tables').trigger('chosen:updated');
+		   	 	$('#order_nos').val(order[i-1]['order_no']);
+		   	 	$('#dates').val(order[i-1]['date']);
+		   	 	$('#item_id_'+i).val(order[i-1]['pro_id']);
+		   	 	// print block 
+		   	 	var item = $('#item_id_'+i+' option:selected').text();
+		   	 	templateUpdate='<tr class="row_order" id="row_order_update_'+i+'" style="height:33px;border-bottom: 1px solid #DDD;font-size: 9px !important;">';
+		   	 	templateUpdate+='<td>'+i+'</td>';
+		   	 	templateUpdate+='<td><label id="item_update">'+item+'</label></td>';
+		   	 	templateUpdate+='<td><label id="price_update_'+i+'">'+UnitPrice+order[i-1]['cu_icon']+'</label></td>';
+		   	 	templateUpdate+='<td width="60px"><label id="qty_update_'+i+'">'+order[i-1]['qty']+'</label></td>';
+		   	 	templateUpdate+='<td><label id="total_update'+i+'">'+TotalAmount+order[i-1]['cu_icon']+'</label><label id="icon_update'+i+'">'+order[i-1]['cu_icon']+'</lebal></td>';
+		   	 	templateUpdate+="</tr>";
+		   	   	subtotalUpdate+=parseFloat(order[i-1]['unit_price']*order[i-1]['qty']);
+		   	 	var table_name_update = $("#tables option:selected").text();
+		   	 	document.getElementById('lb_reciept_update').innerHTML = order[i-1]['order_no'];
+		   	 	document.getElementById('lb_cashier_name_update').innerHTML = '<?php echo $user?>';
+		   	 	document.getElementById('lb_table_update').innerHTML = table_name_update;
+		   		document.getElementById('lb_date_update').innerHTML = order[i-1]['date'];
+		   		$('#order_item_update').append(templateUpdate);
+				   	if(i!=1) {
+						var id = $('#id_record').val();
+						$('#id_record').val(id+','+i);
+					} else {$('#id_record').val(i);}
+   	   			}
+	   			cart_html1='<div id="subtotal_order" class="row-fluid" style="margin-top:10px">';
+					cart_html1+='<div class="span6"></div>';
+					cart_html1+='<div class="span6">';
+						cart_html1+='<div class="total">';
+							cart_html1+='<div class="span6">';
+								cart_html1+='<p><strong><span><?php echo $tr->translate('TOTAL') ?> (៛):</span></strong></p>';
+							cart_html1+='</div>';
+							cart_html1+='<div class="span6">';
+								cart_html1+='<label id="lbsubtotalreil" style="float:left;padding-right:10px;"></label> <em>  Reil</em>';
+							cart_html1+='</div>';
+						cart_html1+='</div>';
+						cart_html1+='<div class="total">';
+							cart_html1+='<div class="span6">';
+								cart_html1+='<p><strong><span><?php echo $tr->translate('TOTAL') ?> ($):</span></strong></p>';
+							cart_html1+='</div>';
+							cart_html1+='<div class="span6">';
+								cart_html1+='<input type="hidden" name="totalupdateriel" id="totalupdateriel" /><input type="hidden" name="totalupdatedollar" id="totalupdatedollar" /><label id="lbsubtotaldollar" style="float:left;padding-right:10px;"></label> <em>  USD</em>';
+							cart_html1+='</div>';
+						cart_html1+='</div>';
+					cart_html1+='</div>';
+				cart_html1+='</div>';
+			$('#subtotal').append(cart_html1);
+
+			//print block
+			cart_html_update='<div style="height: 30px;"></div> ';
+			cart_html_update+='<div id="subtotal_order_update" class="row-fluid" style="width:100%;">';
+			cart_html_update+='<div style="width:40%; padding:0; float: left">&nbsp;</div>';
+			cart_html_update+='<div style="width:60%; padding:0; float: left">';
+				cart_html_update+='<div class="total" style="width:100%;">';
+					cart_html_update+='<div style="width:40%;float: left;text-align: left;">';
+						cart_html_update+='<?php echo $tr->translate('TOTAL') ?> (៛)';
+					cart_html_update+='</div>';
+					cart_html_update+='<div style="float: left;">:</div>';
+					cart_html_update+='<div style="width:50%;float: right;padding-right:10px;text-align: right;">';
+						cart_html_update+='<label id="lbsubtotalreilprint" style="float:left;padding-right:10px;"></label><em>  Reil</em>';
+					cart_html_update+='</div>';
+				cart_html_update+='</div>';
+
+				cart_html_update+='<div class="total" style="width:100%;clear:both;">';
+					cart_html_update+='<div style="width:40%;float: left;text-align: left;">';
+						cart_html_update+='<?php echo $tr->translate('TOTAL') ?> (៛)';
+					cart_html_update+='</div>';
+					cart_html_update+='<div style="float: left;">:</div>';
+					cart_html_update+='<div style="width:50%;float: right;padding-right:10px;text-align: right;">';
+						cart_html_update+='<label id="lbsubtotaldollarprint" style="float:left;padding-right:10px;"></label><em>  USD</em>';
+					cart_html_update+='</div>';
+				cart_html_update+='</div>';
+			cart_html_update+='</div>';
+		cart_html_update+='</div>';
+			
+			$('#subtotalUpdate').append(cart_html_update);
+   			}
+   			calculateTotal();
+   		},
+   		error:function(e){
+   			alert(e);
+   		}
+   	});
+   }//modal-backdrop fade in
+   function deleteRecord(index) {
+		var id_record = $('#id_record').val();
+		var arrays = id_record.split(',');
+		for(var i=0;i<arrays.length;i++) {
+			if(arrays[i] == index) arrays.splice(i,1);
+		}
+		var strings = arrays.join(',');
+		$('#id_record').val(strings);
+		$("#row_order_"+index).remove();
+		$("#row_order_update_"+index).remove();
+
+		// total price
+		calculateTotal();
+	}
+
+   $("a[id=order_id]").on("click", function () { 
+	    var a = $(this).data('index');
+	    $('#update_id').val(a);
+	    getOrder(a); 
+	});
+   function getItemOrder(){
+		item_ids=$("#add_item").val();
+		$('#add_item').val('');
+		if(item_ids==-1){
+			return false;
+		}
+		addRow(item_ids);
+		$("#add_item").val("");
+	}
+   
+
+   pqty = 1;
+   var option5 = '<?php echo $this->itemsOption; ?>';
+   function addRow(item_id) {
+	   var ids = $('#id_record').val();
+	   var arrays = ids.split(',');
+		for(var index=0;index<arrays.length;index++) {
+			inx = index+1;
+		}
+		var index5 = inx;
+		var num = inx;
+	   index5++;
+   	for(var j=1; j<index5; j++){
+   		new_item=parseInt(item_id);
+   		items = parseInt($("#item_id_"+j).val());
+   		if(new_item==items){
+   			newqty = parseInt($("#qty"+j).val());
+			newqty = newqty+1;
+			$("#qty"+j).val(newqty);
+			document.getElementById('qty_update_'+j).innerHTML = newqty;
+			getProductPrice(j);
+			return false;
+   		}
+   	}
+   		template='<tr class="row_order" id="row_order_'+index5+'" style="height:33px;">';
+	   	num++;
+	   	template+='<td>'+num+'</td>';
+	   	template+='<td><select onChange="getProductPrice('+index5+');" id="item_id_'+index5+'" name="item_id_'+index5+'" >'+option5+'</select></td>';
+	   	template+='<td><input type="hidden" id="cu_id_'+index5+'"><input type="hidden" id="rate_'+index5+'"><input type="hidden" class="validate[required,custom[number]]" id="price_'+index5+'" name="price_'+index5+'" /><label id="lbprice_'+index5+'"></label></td>';
+	   	template+='<td><input type="text" onBlur="calculateTotal();" class="validate[required,custom[number]] input" value="1" id="qty'+index5+'" name="qty'+index5+'"/></td>';
+	   	template+='<td><input type="hidden" class="input" readonly="readonly"  id="total'+index5+'" name="total'+index5+'" /></span><div style="float:left;" id="total_'+index5+'"></div><label id="icon_'+index5+'"></lebal></td>';
+	   	template+='<td><span style="cursor:pointer" onclick="deleteRecord('+j+')" class="icon-trash"></span></td>';
+	   	template+="</tr>";
+	   	//subtotal+=$('#price'+index5).val()*$('#qty'+index5).val();
+   	$('#order_item').append(template);
+   	if(index5!=1) {
+		var id = $('#id_record').val();
+		$('#id_record').val(id+','+index5);
+	} else {$('#id_record').val(index5);}
+   	$("#pro_id_"+index5).val(item_id);
+   	$("#item_id_"+index5).val(item_id);
+   	ids=$("#pro_id_"+index5).val();
+   	$("#row_order_0").remove();
+   	
+
+   	var item = $('#item_id_'+index5+' option:selected').text();
+   	var qtys = $('#qty'+index5).val();
+	 	templateUpdate='<tr class="row_order" id="row_order_update_'+index5+'" style="height:33px;">';
+	 	templateUpdate+='<td>'+index5+'</td>';
+	 	templateUpdate+='<td><label id="item_update">'+item+'</label></td>';
+	 	templateUpdate+='<td><label id="price_update_'+index5+'"></label></td>';
+	 	templateUpdate+='<td width="60px"><label id="qty_update_'+index5+'">'+qtys+'</label></td>';
+	 	templateUpdate+='<td><label style="float:left;" id="total_update'+index5+'"></label><label id="icon_update'+index5+'"></lebal></td>';
+	 	templateUpdate+="</tr>";
+	 $('#order_item_update').append(templateUpdate);
+	 getProductPrice(index5);
+   }
+   <?php $url_pro_price =  $this->url(array('module'=>'','controller'=>'index','action'=>'get-product-price')); ?>
+   function getProductPrice(indexs){
+	   //alert(indexs);
+	    qty = $('#qty'+indexs).val();
+   		id = $("#item_id_"+indexs).val();
+   		document.getElementById('qty_update_'+indexs).innerHTML = qty;
+   				$.ajax({
+   			        url: "<?php echo $url_pro_price;?>",
+   			        type: "post",
+   			        data: {'id':id},
+   			        success: function(data){
+   			            val = $.parseJSON(data);
+   			            
+   			            price = val.price_out;
+   			            cu_id = val.cu_id;
+   			            cu_icon = val.cu_icon;
+   			            rate = val.rate;
+   			            $("#price"+indexs).val(parseFloat(price).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+   			         	$("#cu_id_"+indexs).val(cu_id);
+   			        	$("#rate_"+indexs).val(rate);
+   			         	
+						amount  = qty*price;
+						//alert(qty+'*'+price);
+   			         $('#total'+indexs).val(parseFloat(amount).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+   			         $('#total_'+indexs).html(parseFloat(amount).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+   			      	 $('#price_'+indexs).val(price);
+   			      	 document.getElementById('icon_update'+indexs).innerHTML = cu_icon;
+   			      	 document.getElementById('icon_'+indexs).innerHTML = cu_icon;
+   			         document.getElementById('lbprice_'+indexs).innerHTML = parseFloat(price).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")+cu_icon;
+   			      	 document.getElementById('total_update'+indexs).innerHTML = parseFloat(amount).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")+cu_icon;
+   			      	 document.getElementById('price_update_'+indexs).innerHTML = parseFloat(price).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")+cu_icon;
+      			      calculateTotal();
+   			        },
+   			        error:function(){
+   			            alert('There is error while submit');
+   			        }
+   			    });
+   				
+   				
+   }
+   function clearAjaxData(){
+	   $('.row_order').remove();
+	   $('#subtotal_order_update').remove();
+	   $('#subtotal_order').remove();
+   }
+
+   function calculateTotal(){
+	   //alert(1);
+	   subtotal_dollar = 0;
+	   subtotal_reil =0;
+	   var id = $('#id_record').val();
+	   var arrays = id.split(',');
+		for(var index=0;index<arrays.length;index++) {
+			var price = $('#price_'+arrays[index]).val();
+			var qty = $('#qty'+arrays[index]).val();
+			var cu_id = $('#cu_id_'+arrays[index]).val();
+			var rate = $('#rate_'+arrays[index]).val();
+			document.getElementById('qty_update_'+arrays[index]).innerHTML = qty;
+			total_amount = parseFloat(price*qty);
+			$('#total'+arrays[index]).val(total_amount);
+			document.getElementById('total_update'+arrays[index]).innerHTML = parseFloat(total_amount).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+			document.getElementById('total_'+arrays[index]).innerHTML = parseFloat(total_amount).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+			if(cu_id==1){
+				dollar = total_amount;
+				reil = total_amount*rate;
+			}else{
+				dollar = parseFloat(total_amount/rate);
+				//alert(total_amount+'/'+rate);
+				reil = total_amount;
+			}
+			subtotal_dollar = subtotal_dollar + parseFloat(dollar);
+			subtotal_reil = subtotal_reil + parseFloat(reil);
+		}
+		$('#totalupdateriel').val(subtotal_reil);
+		$('#totalupdatedollar').val(subtotal_dollar);
+		document.getElementById('lbsubtotalreil').innerHTML = subtotal_reil.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+		document.getElementById('lbsubtotaldollar').innerHTML = subtotal_dollar.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+		document.getElementById('lbsubtotaldollarprint').innerHTML = subtotal_dollar.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+		document.getElementById('lbsubtotalreilprint').innerHTML = subtotal_reil.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+// 		alert(subtotal);
+   }
+   </script>
+            

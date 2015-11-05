@@ -1,0 +1,47 @@
+<?php error_reporting(0);
+$frmuser = $this->frmusers;
+$cancel_url = $this->url(array('module'=>'users','controller'=>'user-type','action'=>'index'),null,true);
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<style>
+dt{ display: none;}
+.btn{ margin-right: 5px!important;margin-left: 5px!important;} 
+.breadCrumb{ margin-top:5px;}
+</style>
+<form id="validate" enctype="multipart/form-data" method="post">
+    <div class="content">                
+        <div class="row-fluid">           
+            <div class="span12" style="margin:0 auto;">                                
+                <div class="widget">
+                    <div class="head">
+                        <div class="icon"><i class="icosg-bookmark1"></i></div>
+                        <h2><?php echo $tr->translate('FORM_EDIT') ?></h2>
+                    </div>                                            
+                    
+                    <div class="block-fluid">
+							<div class="row-form">
+                            <div class="span2"><?php echo $tr->translate('USER_TYPE') ?> :</div>
+                            <div class="span4">
+                                <?php echo $frmuser->getElement('user_type');?>
+                            </div>
+                            <div class="span2"><?php echo $tr->translate('STATUS') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmuser->getElement('status');?>
+                            </div>
+                        </div>
+                        <div class="row-form">                               
+                            <div class="span12" class="toolbar bottom TAR" style="margin-top:20px;">
+                                 <div class="btn-group pull-right" style="margin-top:2px;"> 
+                                  <button type="submit" id="save" name="save" class="btn btn-primary btn-grad"><i class="icon-pencil icon-white"> </i> <?php echo $tr->translate('UPDATE') ?></button>
+                        		<button type="submit" id="save_add" name="save_add" class="btn btn-primary btn-grad"><i class="icon-plus icon-white"> </i><?php echo $tr->translate('UPDATE_NEW') ?></button>
+                        		<button type="submit" id="save_close" name="save_close" class="btn btn-primary btn-grad"><i class="icon-share icon-white"> </i> <?php echo $tr->translate('UPDATE_CLOSE') ?></button>                        		
+                        		<a href="<?php echo $cancel_url; ?>"><button type="button" class="btn btn-danger btn-grad"><i class="icon-remove-sign icon-white"> </i> <?php echo $tr->translate('CANCEL') ?></button></a>	
+                                </div> 
+                            </div>
+                         </div>
+                    </div>                 
+                </div>
+            </div>
+        </div>                        
+    </div>  
+</form>

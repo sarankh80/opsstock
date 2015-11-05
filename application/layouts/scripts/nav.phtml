@@ -1,0 +1,96 @@
+<?php  
+	$session_lang = new Zend_Session_Namespace('lang');
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<script type="text/javascript">
+function getactive1(){
+	var d = document.getElementById("register");
+	d.className = d.className + " active";
+}
+function getactive2(){
+	var d = document.getElementById("foundation");
+	d.className = d.className + " active";
+}
+function getactive3(){
+	var d = document.getElementById("registra");
+	d.className = d.className + " active";
+}
+function getactive4(){
+	var d = document.getElementById("reports");
+	d.className = d.className + " active";
+}
+function getactive5(){
+	var d = document.getElementById("staff");
+	d.className = d.className + " active";
+}
+function getactive6(){
+	var d = document.getElementById("user");
+	d.className = d.className + " active";
+	var elementID = document.getElementById("home");
+	getactive(elementID);
+}
+function getactive7(){
+	var d = document.getElementById("other");
+	d.className = d.className + " active";
+}
+</script>
+<div class="navigation">
+        <ul class="main">
+            <li><a href="<?php echo $this->baseUrl();?>/index/pos" class="active"><span class="icom-screen"></span><span class="text"><?php echo $tr->translate('HOME'); ?></span></a></li>
+           <li><a href="#sale" id="sales"><span class="icom-cart"></span><span class="text"><?php echo $tr->translate('SALE'); ?></span></a></li>
+            <li><a href="#phurchase" id="phurchases"><span class="icom-tag"></span><span class="text"><?php echo $tr->translate('PHURCHASE'); ?></span></a></li>
+            <li><a href="#inventery" id="inventerys"><span class="icom-cabinet"></span><span class="text"><?php echo $tr->translate('INVENTERY'); ?></span></a></li>
+            <li><a href="#report" id="reports" onclick="getactive4()"><span class="icom-clipboard1" ></span><span class="text"> <?php echo $tr->translate('REPORT'); ?> </span></a></li>
+            <li><a href="#users" id="user" onclick="getactive6()"><span class="icom-users" ></span><span class="text"><?php echo $tr->translate('USER'); ?></span></a></li>
+            <li><a href="#other" id="other" onclick="getactive7()"><span class="icom-star1" ></span><span class="text"><?php echo $tr->translate('OTHER'); ?></span></a></li>            
+        </ul>       
+        <div class="control"></div>                
+        <div class="submain"> 
+        	<div id="home">
+                <div class="menu">
+                	<a href="<?php echo $this->baseUrl();?>/index/pos"><span class="icon-home"></span> <?php echo $tr->translate('HOME') ?></a>
+                	<a href="<?php echo $this->baseUrl();?>/procategory"><span class="icon-folder-open"></span> <?php echo $tr->translate('CATEGORY') ?></a>
+                	<a href="<?php echo $this->baseUrl();?>/product"><span class="icon-folder-open"></span> <?php echo $tr->translate('PRODUCT') ?></a>
+                	<a href="<?php echo $this->baseUrl();?>/table"><span class="icon-folder-open"></span> <?php echo $tr->translate('TABLES') ?></a>
+                	<a href="<?php echo $this->baseUrl();?>/currency"><span class="icon-folder-open"></span> <?php echo $tr->translate('CURRENCY') ?></a>
+                	<div class="dr"><span></span></div>
+                </div>
+            </div>
+			<div id="sale">
+                <div class="menu">
+                	<a href="<?php echo $this->baseUrl();?>/index/pos"><span class="icon-tag"></span> <?php echo $tr->translate('POS') ?></a>
+                	<a href="<?php echo $this->baseUrl();?>/saleorder"><span class="icon-folder-open"></span> <?php echo $tr->translate('SALE_ORDER') ?></a>
+                	<div class="dr"><span></span></div>
+                </div>
+            </div>			
+            <div id="inventery">
+                <div class="menu">
+                	<a href="<?php echo $this->baseUrl();?>/product"><span class="icon-tag"></span> <?php echo $tr->translate('PRODUCT') ?></a>
+                	<a href="<?php echo $this->baseUrl();?>/product/index/adjust"><span class="icon-folder-open"></span> <?php echo $tr->translate('ADJUST_STOCK') ?></a>
+                	<div class="dr"><span></span></div>
+                </div>
+            </div>
+			<div id="phurchase">
+                <div class="menu">
+                	<a href="<?php echo $this->baseUrl();?>/phurchase/order"><span class="icon-tag"></span> <?php echo $tr->translate('PHURCHASE_ORDER') ?></a>
+                	<a href="<?php echo $this->baseUrl();?>/phurchase/vendor"><span class="icon-folder-open"></span> <?php echo $tr->translate('VENDOR') ?></a>
+                	<div class="dr"><span></span></div>
+                </div>
+            </div>    			
+            <div id="report">
+                <div class="menu">
+                <a href="<?php echo $this->baseUrl();?>/report/index/product"><span class="icon-list-alt"></span> <?php echo $tr->translate('REPORT_PRODUCT') ?></a>                  
+                <a href="<?php echo $this->baseUrl();?>/report/index/sale"><span class="icon-list-alt"></span> <?php echo $tr->translate('REPORT_SALE') ?></a>                    
+				<a href="<?php echo $this->baseUrl();?>/report/index/sale"><span class="icon-list-alt"></span> <?php echo $tr->translate('REPORT_PHURCHASE') ?></a>
+                	<div class="dr"><span></span></div>
+                </div>                
+            </div>             
+            <div id="users">
+                <div class="menu">
+                    <a href="<?php echo $this->baseUrl();?>/users"><span class="icon-user"></span> <?php echo $tr->translate('USER') ?></a>
+                    <a href="<?php echo $this->baseUrl();?>/users/user-type"><span class="icon-user"></span> <?php echo $tr->translate('USER_TYPE') ?></a>
+                	<div class="dr"><span></span></div>
+                </div>
+            </div>                                    
+        </div>
+    </div>

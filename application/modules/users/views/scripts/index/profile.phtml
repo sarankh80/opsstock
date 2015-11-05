@@ -1,0 +1,80 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$session_user=new Zend_Session_Namespace('auth');
+$request=Zend_Controller_Front::getInstance()->getRequest();
+$user_info = new Application_Model_DbTable_DbGetUserInfo();
+$result = $user_info->getUserInfo();
+$profiles = $this->profile;
+?>
+<style>
+<!--
+#information{width: 60%; float: left; border: 1px;}
+#photo{ width: 40%;float: left; padding-left:20px; margin-top:-20px;}
+#user_profile{
+	border: 1px;
+	width: 60%; margin: 0 auto; 
+}
+#user_profile tr td{
+	padding:5px 20px;
+}
+-->
+</style>
+
+<?php $url_profile = $this->url(array('module'=>'foundation','controller'=>'index','action'=>'profile',null)); ?>
+<div id="wrapper">
+      <div id="bg-form">
+        <div class="row"  style=" width:100%; margin:0 auto" >
+            <h2 style=" color: #38A3D6; border-bottom: 5px solid #38A3D6; padding: 12px 0px; margin: -16px 0px 15px 0px;">Form Profile User</h2>
+        </div>      
+        <div class="row"  style=" width:100%; margin:0 auto" >
+			<div id="information">
+				<table class="table table-striped table-hover" id="dataTables-example">
+				<?php foreach ($profiles as $profiless){?>
+					<tr>
+						<td colspan="2" style="padding:5x 20px;"><h4>Contact Information</h4></td>
+					</tr>
+					<tr>
+						<td>Email : </td>
+						<td ><?php echo $profiless['email'];?></td>
+					</tr>
+					<tr>
+						<td>Phone Number :</td>
+						<td><?php echo $profiless['phone'];?></td>
+					</tr>
+					<tr>
+						<td colspan="2"><h4>General Information</h4></td>
+					</tr>
+					<tr>
+						<td>User Name :</td>
+						<td><?php echo $profiless['username'];?></td>
+					</tr>
+					<tr>
+						<td>Full Name :</td>
+						<td><?php echo $profiless['fullname'];?></td>
+					</tr>
+					<tr>
+						<td>Status :</td>
+						<td><span style="padding:5px 10px; color:#fff; background: #287DFD;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;">
+						<?php echo $profiless['user_type'];?></span></td>
+					</tr>
+					<?php }?>
+				</table>
+				
+			</div>
+			<div id="photo">
+				<div>
+					<h3>Photo User</h3>
+					<?php if($profiless['photo']==""){?>
+					<img width="160px" alt="" src="<?php echo $this->baseUrl();?>/images/images_profile.jpg">
+					<?php }else {?>
+					<img width="160px" alt="" src="<?php echo $this->baseUrl();?>/images/<?php echo $profiless['photo'];?>">
+					<?php }?>
+				</div>
+				<?php $url_foundation_edit = $this->url(array('module'=>'userWu','controller'=>'user','action'=>'edit-user','id'=>$session_user->user_id,null));?>
+				<a href="<?php echo $url_foundation_edit;?>" style="margin-left: 30px;"><button type="button" class="btn btn-primary"> Edit Profile </button></a>
+			</div>
+        </div><!-- /.row -->
+        </div><!-- /#page-row -->
+      </div><!-- /#page-wrapper -->
+
+    </div><!-- /#wrapper -->   

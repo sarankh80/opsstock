@@ -1,0 +1,208 @@
+<?php  
+	$session_lang = new Zend_Session_Namespace('lang');
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$data = $this->product;
+	$frm = $this->frm;
+	$company_name=$this->company_name;
+	$slogan=$this->slogan ;
+	$address=$this->address ;
+	$tel=$this->tel ;
+?>
+<style>
+dt{ display: none;}
+.btn{ margin-right: 5px!important;margin-left: 5px!important;} 
+.breadCrumb{ margin-top:5px;}
+.ui-pnotify,custom{display: none !important;}
+</style>
+<?php $session = new Zend_Session_Namespace('auth'); ?>
+<style>
+thead tr th{font-size: 13px; text-align: center !important;}
+td{font-size: 12px; text-align: center !important;}
+button{ margin-right: 5px;} td{ font-size:12px;} 
+.breadCrumb{ margin-top:5px;}
+</style> 
+ <script language="javascript">
+function Clickheretoprint()
+{ 
+  var disp_setting="toolbar=yes,location=no,directories=yes,menubar=yes,"; 
+      disp_setting+="scrollbars=yes,width=800, height=500, left=100, top=25"; 
+  var content_vlue = document.getElementById("printShow").innerHTML; 
+  
+  var docprint=window.open("","",disp_setting); 
+   docprint.document.open(); 
+   docprint.document.write('<html><head><title>Western University</title>'); 
+   docprint.document.write('</head><body onLoad="self.print()" style=" margin:0px; font-family:Verdana; font-size:8px;"><center>');          
+   docprint.document.write(content_vlue);          
+   docprint.document.write('</center></body></html>'); 
+   docprint.document.close(); 
+   docprint.focus(); 
+}
+</script>
+<form class="form-horizontal" id="popup-validation" enctype="multipart/form-data" method="post">
+    <div class=" clearfix">    
+             
+    </div>
+    <div class="content">                                  
+            <div class="widget">
+                <div class="head">                    
+                    <div class="btn-group pull-left">
+                    	<h2><span class="icon-th"></span><?php echo $tr->translate('PRODUCT'); ?></h2>   
+                    </div>
+                    <div class="panel panel-default">
+                    	<div class="panel-heading">
+                   			<div  class="btn-group pull-right" style="margin-top:2px;">	
+                            	<button class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-print"></i> Export & Print  <span class="caret"> </span></button>
+                                <ul class="dropdown-menu">                                   
+                                 	<li class="divider"></li>
+                               		<li><a href="#" onClick ="$('#customers2').tableExport({type:'excel',escape:'false'});"><img src='<?php echo $this->baseUrl();?>/img/icons/xls.png' width="24"/> Excel </a></li>
+                                  	<li><a href="#" onClick ="$('#customers2').tableExport({type:'doc',escape:'false'});"><img src='<?php echo $this->baseUrl();?>/img/icons/word.png' width="24"/> Word </a></li>
+	                              	<li><a href="#" onClick ="Clickheretoprint()"><img src='<?php echo $this->baseUrl();?>/img/icons/print.png' width="24"/> Print </a></li>
+                            	</ul>
+                            </div>   		    	     	                                         
+                         </div>                    
+                	</div>
+                <div style="clear:both"></div>
+                <div class="panel-body">
+	            	<div class="block-fluid">
+	            			<div class="row-form">
+	            				<div class="span1"><?php echo $tr->translate('SEARCH') ?>:</div>
+	                            <div class="span2"><?php echo $frm->getElement('txt_search');?></div>
+			                    <div class="span3">
+			                    	<select id="add_item" name="add_item" class="select" style="width:100%" tabindex="4">
+										<?php echo $this->itemsOption; ?>
+									</select>
+								</div>
+	                            <div class="span3"><?php echo $frm->getElement('cat_id');?></div>
+			                    <div class="span3"><?php echo $frm->getElement('brand');?></div> 
+	            				<div class="span2"><?php echo $frm->getElement('status');?></div>
+			                    <div class="span1"><button type="submit" name="search" class="btn btn-primary"><i style="font-size:16px;" class="icon-search icon-white"> </i></button></div> 
+	                        </div>
+	            	</div>
+                    <div class="block-fluid">
+                        <table class="fTable" cellpadding="0" cellspacing="0" width="100%" id="customers2">
+                            <thead>
+                            	<tr>
+									<th width="5%"><?php if($session_lang->lang_id==2){ echo $tr->translate('NUM'); } else{ ?>N <sup> <u>o</u></sup><?php }?></th>
+		                        	<th><?php echo $tr->translate('PRODUCT_CODE'); ?></th>
+		                            <th><?php echo $tr->translate('ITEM_NAME'); ?></th>
+		                            <th><?php echo $tr->translate('CATEGORY'); ?></th>
+		                            <th><?php echo $tr->translate('BRAND'); ?></th>
+									<th><?php echo $tr->translate('PRICE'); ?></th>
+		                            <th><?php echo $tr->translate('CURRENT_QTY'); ?></th>
+		                            <th><?php echo $tr->translate('PURCHASE_QTY'); ?></th>
+		                            <th><?php echo $tr->translate('SALE_QTY'); ?></th>
+		                       </tr>
+                            </thead>
+                            <tbody>
+                            <?php $i = 1;?>
+                    		<?php foreach($data as $rs){?>
+		                    	<tr class="odd gradeX">
+		                    		<td><?php echo $i++;?></td>		                        
+		                        	<td><?php echo $rs['item_code'];?></td>
+		                        	<td><?php echo $rs['name_en']."(".$rs["item_size"]."), <br />".$rs['name_kh']."(".$rs["item_size"].")";?></td>
+		                        	<td><?php echo $rs['cate_name'];?></td>
+		                        	<td><?php echo $rs['brand'];?></td>
+									<td><?php echo $rs['price_per_qty']." ".$rs['cu_icon'];?></td>
+		                        	<td><?php echo $rs['qty_onhand'];?></td>
+		                        	<td><?php echo $rs['qty_onorder'];?></td>
+		                       		<td><?php echo $rs['qty_onsold'];?></td>
+                                </tr> 
+                            <?php } ?>                   
+                            </tbody>
+                        </table>
+                        <div  id="printShow" style="display: none;">
+						<div class="row-form" style="width:100%; padding:0;">
+			                    	<table class="datatable" cellpadding="0" cellspacing="0" width="100%" style="width: 100%; border:0 0 0px 0 solid #DDD;position: relative;padding: 0px;margin: 0px;border-spacing: 0px;border-collapse: collapse;">
+										<tr>
+											<td style="width:30%"> <img src="<?php echo $this->baseUrl();?>/img/rice.png"  width="50px" /> </td>
+											<td style="text-align:center; width:40%; color:#36F; font-family:'Khmer OS Muol Light';font-size:13px;">
+												<?php
+													$arrays = explode(",", $company_name);
+													$count = count($arrays);
+													for ($i=0;$i<$count;$i++){
+														echo $arrays[$i]."<br />";
+													}
+												?>
+											</td>
+											<td style="width:30%">  <img style="float:right" src="<?php echo $this->baseUrl();?>/img/fan.png" width="70px" /></td>
+										</tr>
+										<tr>
+											<td style="width:30%; font-size:10px;font-family:'Khmer OS Muol Light'"><?php echo $address;?></td>
+											<td style="width:40%;text-align:center;font-size:10px;font-family:'Khmer OS Muol Light'"><?php echo $slogan; ?><td>
+											<td><?php //echo $slogan;?></td>
+										</tr>
+										<tr>
+											<td style="width:30%; color:#36F; font-size:10px;">
+                                                    	<span>Tel : </span>
+                                                        <span>
+														<?php
+													 		$arrays = explode(",", $tel);
+															$count = count($arrays);
+															for ($i=0;$i<$count;$i++){
+																echo  $arrays[$i]."<br />";
+															}
+														?>
+                                                </span>
+											</td>
+											<td style="width:40%; font-size:10px; font-family:'Khmer OS Muol Light'​​​" align="center"><span><?php echo $tr->translate('REPORT_PRODUCT') ?><br /> Purchase Report </span></td>
+											<td style="width:30%; text-align:right; font-size:10px;"><?php //echo $tr->translate('FROM_DATE') ?>
+                                                <label id="lb_from_date" style="font-family:'Khmer OS Muol Light'; font-size:12px;color:#F00;"></label><br />
+                                                <?php //echo $tr->translate('TO_DATE') ?>
+                                                <label id="lb_to_date"></label>
+                                            </td>
+										</tr>
+									</table>
+			                    </div>
+                        <table style="width: 100%; border: 1px solid #DDD;position: relative;padding: 0px;margin: 0px;border-spacing: 0px;border-collapse: collapse;">
+                            <thead>
+                            	<tr style="font-size: 9px; text-align:center; background-color: #F2EDED !important;">
+									<th width="5%" style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;padding: 5px;"><?php if($session_lang->lang_id==2){ echo $tr->translate('NUM'); } else{ ?>N<sup><u>o</u></sup><?php }?></th>
+		                            <th style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;padding: 5px;"><?php echo $tr->translate('PRODUCT_CODE'); ?></th>
+		                            <th style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;padding: 5px;"><?php echo $tr->translate('ITEM_NAME'); ?></th>
+		                            <th style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;padding: 5px;"><?php echo $tr->translate('CATEGORY'); ?></th>
+		                            <th style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;padding: 5px;"><?php echo $tr->translate('BRAND'); ?></th>
+									<th style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;padding: 5px;"><?php echo $tr->translate('PRICE'); ?></th>
+		                            <th style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;padding: 5px;"><?php echo $tr->translate('CURRENT_QTY'); ?></th>
+		                            <th style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;padding: 5px;"><?php echo $tr->translate('PURCHASE_QTY'); ?></th>
+		                            <th style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;padding: 5px;"><?php echo $tr->translate('SALE_QTY'); ?></th>
+		                       </tr>
+                            </thead>
+                            <tbody>
+                            <?php $i = 1; $qty_onhand = 0;$qty_onorder=0;$qty_onsold=0;?>
+                    		<?php foreach($data as $rs){?><td></td>
+		                    	<tr class="odd gradeX" style="font-size: 9px;text-align:center;">
+		                    		<td style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;"><?php echo $i++;?></td>
+		                        	<td style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;"><?php echo $rs['item_code'];?></td>
+		                        	<td style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;"><?php echo $rs['name_en']."(".$rs["item_size"]."), <br />".$rs['name_kh']."(".$rs["item_size"].")";?></td>
+		                        	<td style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;"><?php echo $rs['cate_name'];?></td>
+		                        	<td style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;"><?php echo $rs['brand'];?></td>
+									<td style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;"><?php echo $rs['price_per_qty']." ".$rs['cu_icon'];?></td>
+		                        	<td style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;"><?php echo $rs['qty_onhand'];?></td>
+		                        	<td style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;"><?php echo $rs['qty_onorder'];?></td>
+		                        	<td style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;"><?php echo $rs['qty_onsold'];?></td>
+                                </tr> 
+                            <?php 
+									$qty_onhand=$qty_onhand+$rs["qty_onhand"];
+									$qty_onorder = $qty_onorder+$rs["qty_onorder"];
+									$qty_onsold= $qty_onsold+$rs["qty_onsold"];
+								} 
+							?> 
+								<tr class="odd gradeX" style="font-size: 9px;text-align:center;">
+		                    		<td style="border: 0;"></td>
+									<td style="border: 0;"></td>
+									<td style="border: 0;"></td>
+									<td style="border: 0;"></td>
+									<td style="border: 0;"></td>
+									<td style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;"><?php echo $qty_onhand;?></td>
+		                        	<td style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;"><?php echo $qty_onorder;?></td>
+		                        	<td style="border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;"><?php echo $qty_onsold;?></td>
+                                </tr> 
+                            </tbody>
+                        </table> 
+                        </div>                   
+                    </div> 
+           		</div>            
+			</div>  
+    	</div> 
+    </div> 
+</form>

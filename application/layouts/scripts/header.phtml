@@ -1,0 +1,158 @@
+<?php 
+	$session = $session_user = new Zend_Session_Namespace('auth');
+	$user_id = $session->user_id;
+	$user_name = $session-> fullname;
+	$session_lang = new Zend_Session_Namespace('lang');
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<div class="header">
+      
+        <div class="buttons">
+            <div class="popup" id="subNavControll">
+                <div class="label"><span class="icos-list"></span></div>
+            </div>
+			<div class="dropdown">
+                <div class="label"><p style="float: left; padding: 2px 5px;"> <?php echo $tr->translate('PHURCHASES') ?> </p> <span class="icos-tag"></span> </div>
+                <div class="body" style="width: 200px;">              
+                    <div class="itemLink">
+                       <a href="<?php echo $this->baseUrl();?>/phurchase/order"><span class="icon-tag"></span> <?php echo $tr->translate('PHURCHASE_ORDER') ?></a>
+					</div>
+                    <div class="itemLink">
+						<a href="<?php echo $this->baseUrl();?>/phurchase/vendor"><span class="icon-folder-open"></span> <?php echo $tr->translate('VENDOR') ?></a>		
+                    </div>					
+                </div>                                
+            </div>   
+			<div class="dropdown">
+                <div class="label"><p style="float: left; padding: 2px 5px;"> <?php echo $tr->translate('INVENTERYS') ?> </p> <span class="icos-cabinet"></span> </div>
+                <div class="body" style="width: 200px;">              
+                    <div class="itemLink">
+						<a href="<?php echo $this->baseUrl();?>/product"><span class="icon-tag"></span> <?php echo $tr->translate('PRODUCT') ?></a>
+                    </div>
+                    <div class="itemLink">
+                        <a href="<?php echo $this->baseUrl();?>/product/index/adjust"><span class="icon-folder-open"></span> <?php echo $tr->translate('ADJUST_STOCK') ?></a>
+                    </div>					
+                </div>                                
+            </div>   
+			<div class="dropdown">
+                <div class="label"><p style="float: left; padding: 2px 5px;"> <?php echo $tr->translate('SALES') ?> </p> <span class="icos-cart"></span> </div>
+                <div class="body" style="width: 200px;">              
+                    <div class="itemLink">
+                        <a href="<?php echo $this->baseUrl();?>/index/pos"><span class="icon-tag"></span> <?php echo $tr->translate('POS') ?></a>                	
+                    </div> 
+					<div class="itemLink">
+                       <a href="<?php echo $this->baseUrl();?>/saleorder"><span class="icon-folder-open"></span> <?php echo $tr->translate('SALE_ORDER') ?></a>
+                    </div>					
+                </div>                                
+            </div>   
+            <div class="dropdown">
+                <div class="label"><p style="float: left; padding: 2px 5px;"> <?php echo $tr->translate('REPORTS') ?> </p> <span class="icos-pencil1"></span> </div>
+                <div class="body" style="width: 200px;">              
+                    <div class="itemLink">
+                        <a href="<?php echo $this->baseUrl();?>/report/index/product"><span class="icos-pencil"></span> <?php echo $tr->translate('REPORT_PRODUCT') ?></a>
+                    </div>
+                    <div class="itemLink">
+                        <a href="<?php echo $this->baseUrl();?>/report/index/sale"><span class="icos-pencil"></span> <?php echo $tr->translate('REPORT_SALE') ?></a>
+                    </div> 
+					<div class="itemLink">
+                        <a href="<?php echo $this->baseUrl();?>/report/index/purchase"><span class="icos-pencil"></span> <?php echo $tr->translate('REPORT_PHURCHASE') ?></a>
+                    </div>					
+                </div>                                
+            </div>   
+            <div class="dropdown">
+                <div class="label"> <p style="float: left; padding: 2px 5px;"> <?php echo $tr->translate('MENU') ?> </p><span class="icos-screen"></span> </div>
+                <div class="body" style="width: 160px;">
+                	<div class="itemLink">
+                        <a href="<?php echo $this->baseUrl();?>/index/pos"><span class="icon-home icon-white"> </span> <?php echo $tr->translate('HOME') ?></a>
+                    </div> 
+                	<div class="itemLink">
+                        <a href="<?php echo $this->baseUrl();?>/procategory"><span class="icon-hand-right icon-white"> </span> <?php echo $tr->translate('CATEGORY') ?></a>
+                    </div>              
+                    <div class="itemLink">
+                        <a href="<?php echo $this->baseUrl();?>/product"><span class="icon-hand-right icon-white "> </span> <?php echo $tr->translate('PRODUCT') ?></a>
+                    </div>
+                    <div class="itemLink">
+                        <a href="<?php echo $this->baseUrl();?>/brand"><span class="icon-hand-right icon-white"> </span> <?php echo $tr->translate('BRAND') ?></a>
+                    </div> 
+                    <div class="itemLink">
+                        <a href="<?php echo $this->baseUrl();?>/currency"><span class="icon-hand-right icon-white"> </span> <?php echo $tr->translate('CURRENCY') ?></a>
+                    </div> 
+					<div class="itemLink">
+                        <a href="<?php echo $this->baseUrl();?>/customer"><span class="icon-hand-right icon-white"> </span> <?php echo $tr->translate('CUSTOMER') ?></a>
+                    </div> 					
+                </div>                
+            </div>         
+            <div class="popup">
+                <div class="label"><span class="icos-cog"></span></div>
+                <div class="body">
+                    <div class="arrow"></div>
+                    <div class="row-fluid">
+                        <div class="row-form">
+                            <div class="span12">
+                                <span class="top">Themes:</span>
+                                <div class="themes">
+                                    <a href="#" data-theme="" class="tip" title="Default"><img src="<?php echo $this->baseUrl();?>/img/themes/default.jpg"/></a>                                    
+                                    <a href="#" data-theme="ssDaB" class="tip" title="DaB"><img src="<?php echo $this->baseUrl();?>/img/themes/dab.jpg"/></a>
+                                    <a href="#" data-theme="ssTq" class="tip" title="Tq"><img src="<?php echo $this->baseUrl();?>/img/themes/tq.jpg"/></a>
+                                    <a href="#" data-theme="ssGy" class="tip" title="Gy"><img src="<?php echo $this->baseUrl();?>/img/themes/gy.jpg"/></a>
+                                    <a href="#" data-theme="ssLight" class="tip" title="Light"><img src="<?php echo $this->baseUrl();?>/img/themes/light.jpg"/></a>
+                                    <a href="#" data-theme="ssDark" class="tip" title="Dark"><img src="<?php echo $this->baseUrl();?>/img/themes/dark.jpg"/></a>
+                                    <a href="#" data-theme="ssGreen" class="tip" title="Green"><img src="<?php echo $this->baseUrl();?>/img/themes/green.jpg"/></a>
+                                    <a href="#" data-theme="ssRed" class="tip" title="Red"><img src="<?php echo $this->baseUrl();?>/img/themes/red.jpg"/></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-form">
+                            <div class="span12">
+                                <span class="top">Backgrounds:</span>
+                                <div class="backgrounds">
+                                    <a href="#" data-background="bg_default" class="bg_default"></a>
+                                    <a href="#" data-background="bg_mgrid" class="bg_mgrid"></a>
+                                    <a href="#" data-background="bg_crosshatch" class="bg_crosshatch"></a>
+                                    <a href="#" data-background="bg_hatch" class="bg_hatch"></a>                                    
+                                    <a href="#" data-background="bg_light_gray" class="bg_light_gray"></a>
+                                    <a href="#" data-background="bg_dark_gray" class="bg_dark_gray"></a>
+                                    <a href="#" data-background="bg_texture" class="bg_texture"></a>
+                                    <a href="#" data-background="bg_light_orange" class="bg_light_orange"></a>
+                                    <a href="#" data-background="bg_yellow_hatch" class="bg_yellow_hatch"></a>                        
+                                    <a href="#" data-background="bg_green_hatch" class="bg_green_hatch"></a>                        
+                                </div>
+                            </div>          
+                        </div>
+                        <div class="row-form">
+                            <div class="span12">
+                                <span class="top">Navigation:</span>
+<!--                                 <input type="radio" name="navigation" id="fixedNav"/> Fixed  -->
+                                <input type="radio" name="navigation" id="collapsedNav"/> Collapsible
+                                <input type="radio" name="navigation" id="hiddenNav"/> Hidden
+                            </div>                                
+                        </div>
+                    </div>
+                </div>
+            </div>
+           <!-- <div class="dropdown">
+                <div class="label"><span class="icos-flag"></span></div>
+                <div class="body" style="width: 160px;">
+                <form class="form-horizontal" id="popup-validation" enctype="multipart/form-data" method="post">
+                    <div class="itemLink">
+                        <button type="submit"  name="en" value="1" style="background: none; border: none; color: #fff; display: block;" ><span class="icos-flag icon-white"></span>  English </button> 
+                    </div>
+                    <div class="itemLink">
+                        <button type="submit"  name="km" value="2"  style="background: none; border: none; color: #fff; display: block;" ><span class="icos-flag icon-white"></span> Khmer </button>
+                    </div>  
+               	</form>                                                          
+                </div>                
+            </div>
+			-->
+            <div class="dropdown">
+                <div class="label"> <span class="icos-user2"></span> </div>
+                <div class="body" style="width: 200px;">
+                	 <div class="itemLink">
+                        <a href="#" style="font-size: 13px;"><span class="icon-user icon-white"></span> <?php echo $tr->translate('NAME') ?> :  <?php echo $user_name?> </a>
+                    </div>              
+                    <div class="itemLink">
+                        <a  style="font-size: 13px;" href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'logout', 'value'=>1));?>"><span class="icon-off icon-white"></span> <?php echo $tr->translate('LOGOFF') ?></a>
+                    </div>                                        
+                </div>                
+            </div>     
+        </div>      
+    </div>

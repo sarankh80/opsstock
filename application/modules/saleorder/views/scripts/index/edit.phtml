@@ -1,0 +1,227 @@
+<?php $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$product = $this->getdata;
+	$order = $this->order;
+	$frm = $this->frm;
+	//print_r($product);
+	$session = new Zend_Session_Namespace('auth');
+	$user = $session->fullname;
+	//print_r($order);
+?>
+<style>
+dt{ display: none;}
+.btn{ margin-right: 5px!important;margin-left: 5px!important;} 
+.breadCrumb{ margin-top:5px;}
+</style>
+<script src="<?php echo $this->baseUrl();?>/js/atn-cart.js"></script>
+<form id="validate" enctype="multipart/form-data" method="post">
+    <div class="content">      
+        <div class="row-fluid">  
+            <div class="span6">                
+
+                <div class="widget">
+                    <div class="head dark">
+                        <div class="icon"><i class="icos-home"></i></div>
+                        <h2><?php echo $tr->translate('MENU') ?></h2>
+                    </div>
+                    <div class="block-fluid">
+                    <h4 style="text-align: center;"><?php echo $tr->translate('STEAMED_NOODLE'); ?></h4>
+						<div class="middle">    
+						<?php 
+						$script_products ="";
+						$script_product_prices="";
+						$script_proId="";
+
+							foreach ($product as $rs){
+								$script_products.="products[".($rs["pro_id"])."]=\"".($rs["pro_name_en"])."\";\n";
+								$script_proId.="proId[".($rs["pro_id"])."]=\"".($rs["pro_id"])."\";\n";
+								$script_product_prices.="product_prices[".($rs["pro_id"])."]=\"".($rs["price_out"])."\";\n";
+						?>
+						
+			                <div class="informer">
+			                    <a href="javascript:AddToCart(<?php echo $rs["pro_id"];?>)">
+			                    	
+			                        <span><img alt="" src="<?php echo $this->baseUrl();?>/icon/<?php echo $rs["icon"]?>" width="118px" height="115px"></span>
+			                        <span class="name"><?php echo $rs["pro_name_en"];?></span>
+			                        <span class="price"><?php echo $rs["price_out"]; ?></span>
+			                        
+			                    </a>
+			                </div>
+						<?php }?>
+			            <script>
+							//var currency_symbol="<?php //echo $currency_symbol;?>";
+							javaArray = <?php echo json_encode((array)$order);?>;
+							var products=Array();
+							<?php echo $script_products;?>
+							var proId=Array();
+							<?php echo $script_proId;?>
+							var product_prices=Array();
+							<?php echo $script_product_prices;?>
+						</script>       
+			            </div><!-- end -->			       
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+            
+            <div class="span6">                
+				<div class="widget">
+                    <div class="head dark">
+                        <div class="icon"><i class="icos-newtab"></i></div>
+                        <h2>Order & Invoice </h2>
+                    </div>  
+                    <div class="block-fluid tabbable">                    
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab1" data-toggle="tab">
+                            	<i class="icon-tags"></i> <?php echo $tr->translate('ORDER'); ?>
+                            </a></li>
+                            <li><a href="#tab2" data-toggle="tab"><i class="icon-list"></i> <?php echo $tr->translate('LIST_INVOCE'); ?></a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab1">
+                            	<div id="popup" class="alert alert-warning"></div>
+	                            <div class="block-fluid">
+	                            	<div class="row-form">
+	                            		<div class="span2"></div>
+			                            <div class="span4"></div>
+			                            <div class="span2"><?php echo $tr->translate('ORDER_NO') ?>:</div>
+			                            <div class="span4"><?php echo $frm->getElement('order_no');?></div> 
+	                            	</div>
+		                            <div class="row-form">
+		                            	 
+			                                                      
+			                            <div class="span2"><?php echo $tr->translate('TABLE') ?>:</div>
+			                            <div class="span4">
+			                                <?php echo $frm->getElement('table');?>
+			                            </div>
+			                            <div class="span2"><?php echo $tr->translate('DATE') ?>:</div>
+			                            <div class="span4">
+			                            	<div class="input-prepend input-append">
+				                                <?php echo $frm->getElement('date');?>  
+				                                <span class="add-on" style="right"><i class="icon-calendar"></i></span>                              
+				                          </div>  
+			                                <?php //echo $frm->getElement('date');?>
+			                            </div>
+			                        </div>
+<!-- 			                    </div> -->
+<!--                                 <div class="block-fluid"> -->
+			                        <div class="row-form">
+<!-- 			                        	<div class="block invoice"> -->
+			                            <div id="Cart">
+			                            	<table id="order_cart" cellpadding="0" cellspacing="0" width="100%">
+											<thead>
+												<tr>
+													<th>No</th>
+													<th>Item Name</th>
+													<th>Unit Price</th>
+													<th width="30">Qty</th>
+													<th>Amount</th>
+													<th>Remove</th>
+													</tr>
+											</thead>
+											</table>
+											The cart is empty!
+										</div>
+<!-- 										</div> -->
+										<input type="text" name="identity" id="identity">
+			                        </div>
+			                        
+			                        <div class="row-form">
+			                        
+			                            <div class="span12">
+			                            	<button type="submit" class="btn btn-primary btn-sm btn-grad"><i class="icon-share icon-white"></i> Save</button>
+			                            	<button type="button" class="btn btn-success" Onclick="Clickheretoprint();"><i class="icon-print icon-white"></i> Save & Print</button>
+			                            	<button class="btn btn-danger"><i class="icon-remove icon-white"></i> Cancel</button>
+			                            	
+			                            </div>
+			                        </div>
+			                    </div> 
+			                    
+			                    <div class="row-fluid" style="display: block">
+			                    	<div  id="printShow" style="display: block;">
+			                    		<div class="row-form" style="width:100%; padding:0;">
+			                    			<div class="span6" style="width:40%; padding:0;"><img alt="" src="<?php echo $this->baseUrl();?>/logo.png" width="60px" style="margin-right: 10px;">Welcome for come here</div>
+			                    		</div>
+			                    		<div style="height: 20px; clear:both;" ></div>
+			                    		<div class="row-form" style="width:100%; padding:0;">
+			                    		<table style="width: 100%; border: 0;position: relative;padding: 0px;margin: 0px;border-spacing: 0px;border-collapse: collapse;">
+			                    			<tr class="odd gradeX" style="font-size: 9px;">
+			                    				<td width="20%"></td>
+			                    				<td width="30%"></td>
+			                    				<td style="width:20%"><label>Reciept No :</label></td>
+			                    				<td align="right" width="30%"><label  for="myalue" id="lb_reciept"></label></td>
+			                    			</tr>
+			                    			<tr class="odd gradeX" style="font-size: 9px;">
+			                    				<td><label id="lb_cashier">Cashier :</label></td>
+			                    				<td><label id="lb_cashier_name"></label></td>
+			                    				<td style=""><label>Table :</label></td>
+			                    				<td align="right"><label  for="myalue" id="lb_table"></label></td>
+			                    			</tr>
+			                    			<tr class="odd gradeX" style="font-size: 9px;">
+			                    				<td></td>
+			                    				<td></td>
+			                    				<td style=""><label>Date :</label></td>
+			                    				<td align="right"><label id="lb_date"></label><td>
+			                    			</tr>
+			                    		</table>
+			                    		</div>
+			                    		<div style="height: 20px;"></div>
+			                    		<div id="print">
+											<table id="print_cart" style="width: 100%; border:0 0 0px 0 solid #DDD;position: relative;padding: 0px;margin: 0px;border-spacing: 0px;border-collapse: collapse;">
+												<thead>
+													<tr style="border-bottom: 1px solid #DDD;font-size: 9px; background-color: #F2EDED !important;">
+														<th>No</th>
+														<th>Item Description</th>
+														<th>Unit Price</th>
+														<th width="30">Qty</th>
+														<th>Amount</th>
+													</tr>
+												</thead>
+											</table>
+				                        	Cart is Empty
+			                    		</div>
+			                    		</div>
+			                        </div> 
+		                    </div>
+                    </div>
+                </div>                  
+            </div>          
+        </div>                  
+    </div>  
+</form>
+<script type="text/javascript">
+   function Clickheretoprint()
+   { 
+	   var table = $('#table').val();
+	   if(table==0){
+		   alert("Please Select Table First");
+	   }else{
+			 getValuePrint();
+		     var disp_setting="toolbar=yes,location=no,directories=yes,menubar=yes,"; 
+		         disp_setting+="scrollbars=yes,width=600, height=500, left=100, top=25"; 
+		     var content_vlue = document.getElementById("printShow").innerHTML; 
+		     
+		     var docprint=window.open("","",disp_setting); 
+		      docprint.document.open(); 
+		      docprint.document.write('<html><head><title>Western University</title>'); 
+		      docprint.document.write('</head><body onLoad="self.print()" style=" margin:0px; font-family:Verdana; font-size:10px;"><center>');          
+		      docprint.document.write(content_vlue);          
+		      docprint.document.write('</center></body></html>'); 
+		      docprint.document.close(); 
+		      docprint.focus(); 
+	  }
+     
+   }
+   function getValuePrint(){
+	   
+		   var table_name = $("#table option:selected").text();  
+		   var date = $("#datepicker").val(); 
+		   var reciept = $("#order_no").val();
+		   document.getElementById('lb_table').innerHTML = table_name;
+		   document.getElementById('lb_date').innerHTML = date;
+		   document.getElementById('lb_reciept').innerHTML = reciept;
+		   document.getElementById('lb_cashier_name').innerHTML = '<?php echo $user?>';
+   }
+   
+   </script>

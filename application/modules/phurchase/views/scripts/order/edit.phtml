@@ -1,0 +1,260 @@
+<?php $frmcate = $this->frmcate; $frmcatevendor = $this->frmcatevendor;
+$session_user = new Zend_Session_Namespace('auth');
+$cancel_url = $this->url(array('module'=>'phurchase','controller'=>'order','action'=>''),null,true);
+$cancel_url_popup = $this->url(array('module'=>'phurchase','controller'=>'order','action'=>'add'),null,true);
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$row_items = $this->rowsOrder;
+?>
+<style>
+dt{ display: none;}
+.btn{ margin-right: 5px!important;margin-left: 5px!important;} 
+.breadCrumb{ margin-top:5px;}
+.ui-dialog-titlebar-close{display: none;}
+</style>
+<form id="validate" enctype="multipart/form-data" method="post">
+    <div class="content">                
+        <div class="row-fluid">           
+            <div class="span12">                                
+                <div class="widget">
+                    <div class="head">
+                        <div class="icon"><i class="icosg-bookmark1"></i></div>
+                        <h2><?php echo $tr->translate('FORM_ADD') ?></h2>
+                    </div>        
+                    <div class="block-fluid">
+                      <div class="row-form"> 
+                            <div class="span2"><?php echo $tr->translate('VENDOR') ?> :</div>
+                            <div class="span4"> 
+                                <?php echo $frmcate->getElement('vendor');?>
+                             </div>
+                             <div class="span2"><?php echo $tr->translate('NUMBER_INVIOCE') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('id_code');?>
+                            </div>
+                         </div>
+                        <div class="row-form">                            
+                            <div class="span2"><?php echo $tr->translate('DATE_IN') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('date');?>
+                            </div>
+                            <div class="span2"><?php echo $tr->translate('STATUS') ?>:</div>
+                            <div class="span4">
+                                <?php echo $frmcate->getElement('status');?>
+                            </div>
+                        </div>
+                        <div class="row-form"> 
+                        	<div class="span2"><?php echo $tr->translate('ITEM') ?>:</div>                           
+                            <div class="span10">
+								<select id="add_item" name="add_item" Onchange="getItemOrder()"  class="select span12">
+									<?php echo $this->items; ?>
+								</select>
+								</div>
+                        </div>
+                        
+                        <div class="row-form">
+			                        	<table class="datatable" cellpadding="0" cellspacing="0" width="100%" id="order_item">
+				                            <thead>
+				                                <tr>
+				                                	<th width="3%"><?php echo $tr->translate('NUM') ?></th>
+				                                    <th width="3%"><?php echo $tr->translate('DELETE') ?></th>
+				                                    <th width="24%"><?php echo $tr->translate('PRODUCT') ?></th>
+				                                    <th width="10%"><?php echo $tr->translate('UNIT_QTY') ?></th>
+				                                    <th width="15%"><?php echo $tr->translate('UNIT_PRICE') ?></th>
+				                                    <th width="10%"><?php echo $tr->translate('QTY_PER_UNIT') ?></th>
+				                                    <th width="15%"><?php echo $tr->translate('PRICE_PER_QTY') ?></th>
+				                                    <th width="10%"><?php echo $tr->translate('TOTAL_PRICE') ?></th>
+				                                </tr>
+				                            </thead>
+				                            <?php 
+				                            	$index=0;
+				                            	foreach ($row_items as $rs){
+													$index++;
+													
+											?>
+				                            	<tr class="row_order" id="row_order_'<?php echo $index;?>'" style="height:33px;">
+				                            		<td><?php echo $index; ?></td>
+				                            		<td><span style="cursor:pointer" onclick="deleteRecord(<?php echo $index;?>)" class="icon-trash"></span></td>
+				                            		<td><input type="hidden" id="item_id<?php echo $index;?>" name="item_id<?php echo $index;?>" value="<?php echo $rs["pro_id"]?>" /><label id="lb_item_name_<?php echo $index;?>"><?php echo $rs["name_en"];?></label></td>
+				                            		
+				                            		<td><input type="text" onBlur="doSubtotal(<?php echo $index;?>);" class="validate[required,custom[number]] input" value="<?php echo $rs["qty_unit"];?>" id="unit_qty<?php echo $index;?>" name="unit_qty<?php echo $index;?>" /></td>
+				                            		<td><input type="text" onBlur="doSubtotal(<?php echo $index;?>);" class="validate[required]" id="unit_price<?php echo $index;?>" name="unit_price<?php echo $index;?>" value="<?php echo $rs["qty_per_unit"];?>"/></td>
+				                            		
+				                            		<td><input type="text" onBlur="doSubtotal(<?php echo $index;?>);" class="validate[required,custom[number]] input" value="<?php echo $rs["qty"];?>" id="qty<?php echo $index;?>" name="qty<?php echo $index;?>"/></td>
+				                            		<td><input type="text" onBlur="doSubtotal(<?php echo $index;?>);" class="validate[required]" id="price_per_qty<?php echo $index;?>" name="price_per_qty<?php echo $index;?>" value="<?php echo $rs["price"]?>"/></td>
+				                            		
+				                            		<td><input type="hidden" class="input" readonly="readonly"  id="total_price<?php echo $index;?>" name="total_price<?php echo $index;?>" value="<?php echo $rs["sub_total"]?>" /><div style="float:left;" id="lb_total_price_<?php echo $index;?>"><?php echo $rs["sub_total"]?></div><input type="hidden" id="total_qty<?php echo $index;?>" name="total_qty<?php echo $index;?>" />
+				                            	</tr>
+				                            <?php }?>
+				                         </table>
+										<input type="text" name="identity" id="identity" />
+			                        </div>
+                        <div class="row-form">
+                            <div class="span2"><?php echo $tr->translate('TOTAL_PRICE') ?>:</div>
+                            <div class="span4" >
+                            	<div class="input-append"> 
+                                <?php echo $frmcate->getElement('totalAmoun');?>
+                                <span class="add-on" style="float: right; margin-top: -30px;    margin-right: -10px;"> $ </span>
+                                </div>
+                            </div>
+                            <div class="span2"><?php echo $tr->translate('TOTAL_PAY') ?>:</div>
+                            <div class="span4">
+                            	<div class="input-append"> 
+                                <?php echo $frmcate->getElement('paid');?>
+                                <span class="add-on" style="float: right; margin-top: -30px;    margin-right: -10px;"> $ </span>
+                            	</div>
+                            </div>
+                         </div>
+                        <div class="row-form">                            
+                            <div class="span2"><?php echo $tr->translate('DISCUONT') ?>:</div>                            
+                            <div class="span4">
+	                            <div class="input-append"> 
+	                            	<?php echo $frmcate->getElement('discount');?>
+	                            	<span class="add-on" style="float: right; margin-top: -30px;    margin-right: -10px;"> $ </span>
+	                            </div>   
+                            </div>                         
+                            <div class="span2"><?php echo $tr->translate('BALANCE') ?>:</div>                          
+                            <div class="span4">
+                            <div class="input-append"> 
+                                <?php echo $frmcate->getElement('remain');?>
+                                <span class="add-on" style="float: right; margin-top: -30px;    margin-right: -10px;"> $ </span>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row-form">                        	
+                            <div class="span2"> </div>
+                            <div class="span4">
+		                        
+                            </div>                         
+                            <div class="span6" class="toolbar bottom TAR" style="margin-top:20px;">
+                                 <div class="btn-group pull-right" style="margin-top:2px;">
+                                   <button  type="submit" id="save" name="save" class="btn btn-primary btn-sm btn-grad"><i class="icon-share icon-white"> </i><?php echo $tr->translate('SAVE') ?></button>
+                                  <button style=" margin-right: 5px!important;" type="submit" id="save_close" name="save_close" class="btn btn-primary btn-sm btn-grad"><i class="icon-share icon-white"> </i> <?php echo $tr->translate('SAVE_CLOSE') ?></button>                        		
+                                  <a href="<?php echo $cancel_url; ?>"><button type="button" class="btn btn-danger btn-sm btn-grad"><i class="icon-remove-sign icon-white"> </i><?php echo $tr->translate('CANCEL') ?></button></a>  	
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>                 
+        </div>                        
+    </div>  
+</form>
+
+<script>
+	function doSubtotal(index){
+		var unit_price = $('#unit_price'+index).val();
+		var qty_unit = $('#unit_qty'+index).val();
+		var qty = $('#qty'+index).val();
+		var price_per_unit = $('#price_per_qty'+index).val();
+
+		sub_total_price = (parseFloat(qty_unit)*parseFloat(unit_price))+(parseFloat(qty)*parseFloat(price_per_unit));
+
+		$('#total_price'+index).val(sub_total_price);
+		document.getElementById('lb_total_price_'+index).innerHTML = sub_total_price;
+	}
+	function doTotal(){
+		   var grand_total = 0;
+		   var id = $('#identity').val();
+		   var arrays = id.split(',');
+			for(var index=0;index<arrays.length;index++) {
+				var price = $('#total_price'+arrays[index]).val();
+				grand_total = (grand_total + parseFloat(price));
+			}
+			$('#totalAmoun').val(grand_total);
+			$('#paid').val(grand_total);
+			$('#add_item').focus();
+	}
+
+	function doRemain(){
+		paid = $('#paid').val();
+		amount = $('#totalAmoun').val();
+		discount = $('#discount').val();
+		remain = parseFloat(amount)-parseFloat(discount)-parseFloat(paid);
+		$('#remain').val(remain);
+		
+	}
+	function getItemOrder(){
+		item_ids=$("#add_item").val();
+		$('#add_item').val('');
+		if(item_ids==-1){
+			return false;
+		}
+		addRow(item_ids);
+		$("#add_item").val("");
+	}
+   pqty = 1;
+   var index5 = <?php echo count($row_items)?>;num=0;
+   var template = '';
+   var value = '';
+   function addRow(item_id) {
+	   index5++;
+		for(var i=1; i<index5; i++){
+			new_item=parseInt(item_id);
+			items = parseInt($("#item_id"+i).val());
+			if(new_item==items){
+				newqty = parseInt($("#qty"+i).val());
+				newqty = newqty+1;
+				$("#qty"+i).val(newqty);
+				return false;
+			}
+		}
+		num++;
+   		template='<tr class="row_order" id="row_order_'+index5+'" style="height:33px;">';
+	   	template+='<td>'+index5+'</td>';
+	   	template+='<td><span style="cursor:pointer" onclick="deleteRecord('+i+')" class="icon-trash"></span></td>';
+	   	template+='<td><input type="hidden" id="item_id'+index5+'" name="item_id'+index5+'" /><labe id="lb_item_name_'+index5+'"></label></td>';
+	   	
+		template+='<td><input type="text" onBlur="doSubtotal('+index5+');" class="validate[required,custom[number]] input" value="0" id="unit_qty'+index5+'" name="unit_qty'+index5+'"/></td>';
+		template+='<td><input type="text" onBlur="doSubtotal('+index5+');" value="0" class="validate[required]" id="unit_price'+index5+'" name="unit_price'+index5+'" /></td>';
+		
+	   	template+='<td><input type="text" onBlur="doSubtotal('+index5+');" class="validate[required,custom[number]] input" value="1" id="qty'+index5+'" name="qty'+index5+'"/></td>';
+		template+='<td><input type="text" onBlur="doSubtotal('+index5+');" value="0" class="validate[required]" id="price_per_qty'+index5+'" name="price_per_qty'+index5+'" /></td>';
+		
+	   	template+='<td><input type="hidden" class="input" readonly="readonly"  id="total_price'+index5+'" name="total_price'+index5+'" /></span><div style="float:left;" id="lb_total_price_'+index5+'">0</div></td>';
+	   	template+="</tr>";
+   	$('#order_item').append(template);
+   	//if(index5!=1) {
+		var id = $('#identity').val();
+		$('#identity').val(id+','+index5);
+	//} else {$('#identity').val(index5);}
+   	$("#item_id_"+index5).val(item_id);
+   	$("#row_order_0").remove();
+   	$(".odd").remove();
+	getProduct(item_id,index5);
+	$('#add_item').focus();
+   }
+
+   function getProduct(id,indexs){
+	   var url = "<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'get-product-by-id'));?>";
+	   $.ajax({
+		        url: url,
+		        type: "post",
+		        data: {'id':id},
+		        success: function(data){
+		            val = $.parseJSON(data);
+		            
+		            val = $.parseJSON(data);
+			         	item_name_kh = val.name_kh;
+			         	item_name_en = val.name_en;
+			         	item_size = val.item_size;
+			         	item_id = val.pro_id;
+						$("#item_id"+indexs).val(item_id);
+						document.getElementById('lb_item_name_'+indexs).innerHTML = item_name_kh+" ("+item_size+")"+"<br />"+item_name_en+ " ("+item_size+")";
+		        },
+		        error:function(e){
+		            alert(e);
+		        }
+		    });
+   }
+
+   jQuery(document).ready(function(){
+		 <?php foreach ($row_items as $key => $rs){$inx = $key+1;?>
+
+				if(<?php echo $inx;?>!=1) {
+					var identity = $('#identity').val();
+					$('#identity').val(identity+','+<?php echo $inx;?>);
+				} else {$('#identity').val(<?php echo $inx;?>);}
+
+		   <?php }?>
+	});
+		
+</script>

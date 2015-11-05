@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+	<meta charset="utf-8"/>      
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    
+    <!--[if gt IE 8]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <![endif]-->        
+    
+    <title> PingIT </title>
+    
+    <link href="<?php echo $this->baseUrl();?>/css/stylesheets.css" rel="stylesheet" type="text/css" />      
+    <!--[if lt IE 10]>
+        <link href="<?php echo $this->baseUrl();?>/css/ie.css" rel="stylesheet" type="text/css" />
+    <![endif]-->        
+     <link rel="icon" type="image/ico" href="<?php echo $this->baseUrl();?>/icon.ico"/>
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/jquery/jquery-1.10.2.min.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/jquery/jquery-ui-1.10.1.custom.min.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/jquery/jquery-migrate-1.1.1.min.js'></script>
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/jquery/globalize.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/other/excanvas.js'></script>
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/other/jquery.mousewheel.min.js'></script>
+        
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/bootstrap/bootstrap.min.js'></script>            
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/cookies/jquery.cookies.2.2.0.min.js'></script>
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/fancybox/jquery.fancybox.pack.js'></script>
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/jflot/jquery.flot.js'></script>    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/jflot/jquery.flot.stack.js'></script>    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/jflot/jquery.flot.pie.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/jflot/jquery.flot.resize.js'></script>
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/epiechart/jquery.easy-pie-chart.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/knob/jquery.knob.js'></script>
+        
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/sparklines/jquery.sparkline.min.js'></script>    
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/pnotify/jquery.pnotify.min.js'></script>
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/fullcalendar/fullcalendar.min.js'></script>        
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/datatables/jquery.dataTables.min.js'></script>    
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/wookmark/jquery.wookmark.js'></script>        
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/jbreadcrumb/jquery.jBreadCrumb.1.1.js'></script>
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js'></script>
+    
+    <script type='text/javascript' src="<?php echo $this->baseUrl();?>/js/plugins/uniform/jquery.uniform.min.js"></script>
+    <script type='text/javascript' src="<?php echo $this->baseUrl();?>/js/plugins/select/select2.min.js"></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/tagsinput/jquery.tagsinput.min.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/maskedinput/jquery.maskedinput-1.3.min.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/multiselect/jquery.multi-select.min.js'></script>    
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/validationEngine/languages/jquery.validationEngine-en.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/validationEngine/jquery.validationEngine.js'></script>        
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/stepywizard/jquery.stepy.js'></script>
+        
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/animatedprogressbar/animated_progressbar.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/hoverintent/jquery.hoverIntent.minified.js'></script>
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/media/mediaelement-and-player.min.js'></script>    
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/cleditor/jquery.cleditor.js'></script>
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/shbrush/XRegExp.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/shbrush/shCore.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/shbrush/shBrushXml.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/shbrush/shBrushJScript.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/shbrush/shBrushCss.js'></script>    
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/filetree/jqueryFileTree.js'></script>        
+        
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/slidernav/slidernav-min.js'></script>    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/isotope/jquery.isotope.min.js'></script>    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/jnotes/jquery-notes_1.0.8_min.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/jcrop/jquery.Jcrop.min.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/ibutton/jquery.ibutton.min.js'></script>
+
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins/scrollup/jquery.scrollUp.min.js'></script>    
+    
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/plugins.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/charts.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl();?>/js/actions.js'></script>
+    
+     <script type="text/javascript" src="<?php echo $this->baseUrl();?>/js/plugins/tableexport/tableExport.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/js/plugins/tableexport/jquery.base64.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/js/plugins/tableexport/html2canvas.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/js/plugins/tableexport/jspdf/libs/sprintf.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/js/plugins/tableexport/jspdf/jspdf.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/js/plugins/tableexport/jspdf/libs/base64.js"></script>    
+
+</head>
+<body>
+<?php 
+	error_reporting(0);
+    	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+    	$session_lang = new Zend_Session_Namespace('lang');
+    	if($session_lang->lang_id==2){
+    ?>
+    <style>
+		body, html {font-size:12px; font-family:'Khmer OS' !important;}
+		h1,h2,h3,h4,h5,a,p,b,i{font-family:'Khmer OS' !important;}
+	</style>	
+<?php }
+$module = Zend_Controller_Front::getInstance()->getRequest()->getModuleName();
+$cotroller = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
+$session = $session_user = new Zend_Session_Namespace('auth');
+$user_id = $session->user_id;
+	if(empty($user_id)){ 
+		Application_Form_FrmMessage::redirectUrl('/index');
+	}else {?>
+	<?php echo $this->render('header.phtml')?>
+	<?php echo $this->render('nav.phtml')?>
+	<?php echo $this->layout()->content; ?> 
+<?php } ?>    
+    <link rel="stylesheet" href="<?php echo $this->baseUrl() . '/assets/plugins/validationengine/css/validationEngine.jquery.css'?>" />
+   <!-- END PAGE LEVEL  STYLES -->
+   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <!-- PAGE LEVEL STYLES -->
+    <!-- END PAGE LEVEL SCRIPTS -->
+<script src="<?php echo $this->baseUrl() . '/assets/plugins/jasny/js/bootstrap-fileupload.js'?>"></script>
+<!-- END PAGE LEVEL SCRIPTS -->
+<script src="<?php echo $this->baseUrl() . '/assets/plugins/validationengine/js/jquery.validationEngine.js'?>"></script>
+<script src="<?php echo $this->baseUrl() . '/assets/plugins/validationengine/js/languages/jquery.validationEngine-en.js'?>"></script>
+<script src="<?php echo $this->baseUrl() . '/assets/plugins/jquery-validation-1.11.1/dist/jquery.validate.min.js'?>"></script>
+<script src="<?php echo $this->baseUrl() . '/assets/js/validationInit.js'?>"></script>
+</body>
+</html>

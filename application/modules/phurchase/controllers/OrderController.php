@@ -34,14 +34,14 @@ class phurchase_OrderController extends Zend_Controller_Action
 //     			$db->updateStatus($ids);
 //     			$this->_redirect("/phurchase/order");
 //     		}
-//     		$id = $data['checkBox'];
-//     		if(isset($data['update'])&& $id !=""){
-//     			$this->_redirect("/phurchase/order/edit/id/".$id);
-//     		}elseif(isset($data['delete'])&& $id !=""){
-//     			$db->deleteCat($id);
-//     			Application_Form_FrmMessage::message("កាលុបប្រភេទអ្នកប្រើប្រាស់បានជោគជ័យ");
-//     			Application_Form_FrmMessage::redirectUrl('/phurchase/order');
-//     		}else { $this->_redirect("/phurchase/order");}
+    		$id = $data['checkBox'];
+    		if(isset($data['update'])&& $id !=""){
+    			$this->_redirect("/phurchase/order/edit/id/".$id);
+    		}elseif(isset($data['delete'])&& $id !=""){
+    			$db->deleteCat($id);
+    			Application_Form_FrmMessage::message("កាលុបប្រភេទអ្នកប្រើប្រាស់បានជោគជ័យ");
+    			Application_Form_FrmMessage::redirectUrl('/phurchase/order');
+    		}else { $this->_redirect("/phurchase/order");}
     	
     	}else{
 			$search = array(

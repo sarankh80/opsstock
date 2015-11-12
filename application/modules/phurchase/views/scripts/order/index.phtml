@@ -36,7 +36,7 @@ button{ margin-right: 5px;} td{ font-size:12px;}
 									<button type="button" class="btn btn-primary "><span class="icon-plus-sign icon-white" ></span> <?php echo $tr->translate('NEW'); ?> </button>					
 									</a>
 									<button type="submit" name="update" class="btn btn-primary"><i class="icon-edit icon-white"> </i> <?php echo $tr->translate('UPDATE'); ?> </button>
-									<button type="submit" name="delete" class="btn btn-danger"><i class="icon-remove icon-white"> </i> <?php echo $tr->translate('DELETE'); ?> </button>
+									<!--   <button type="submit" name="delete" class="btn btn-danger"><i class="icon-remove icon-white"> </i> <?php echo $tr->translate('DELETE'); ?> </button> -->
 							</div>	             	     	                                         
                          </div>                    
                 	</div>
@@ -44,29 +44,21 @@ button{ margin-right: 5px;} td{ font-size:12px;}
                 <div class="panel-body">  
                 	<div class="block-fluid">
 	            			<div class="row-form">
-	            				<div class="span2"><?php echo $tr->translate('SEARCH') ?>:</div>
-	                            <div class="span4"><?php echo $frm->getElement('txt_search');?></div>
-			                    <div class="span2"><?php echo $tr->translate('ORDER_NO') ?>:</div>
-			                    <div class="span4"><?php echo $frm->getElement('purchase_no');?></div> 
+	            				<div class="span1"><?php echo $tr->translate('SEARCH') ?>:</div>
+	                            <div class="span3"><?php echo $frm->getElement('txt_search');?></div>
+			                    <div class="span3"><?php echo $frm->getElement('purchase_no');?></div> 
+	                            <div class="span3"><?php echo $frm->getElement('supplier');?></div>
+	            				<div class="span2"><?php echo $frm->getElement('status');?></div>
 	                        </div>
 	                        <div class="row-form">
-	            				<div class="span2"><?php echo $tr->translate('SUPPLIER') ?>:</div>
-	                            <div class="span4"><?php echo $frm->getElement('supplier');?></div>
-			                    <div class="span2"><?php echo $tr->translate('STATUS') ?>:</div>
-	            				<div class="span4"><?php echo $frm->getElement('status');?></div>
-	                        </div>
-	                        <div class="row-form">
-	            				<div class="span2"><?php echo $tr->translate('START_DATE') ?>:</div>
-	            				<div class="span4"><?php echo $frm->getElement('start_date');?></div>
-	            				<div class="span2"><?php echo $tr->translate('END_DATE') ?>:</div>
-	            				<div class="span4">
+	            				<div class="span1"><?php echo $tr->translate('START_DATE') ?>:</div>
+	            				<div class="span2"><?php echo $frm->getElement('start_date');?></div>
+	            				<div class="span1"><?php echo $tr->translate('END_DATE') ?>:</div>
+	            				<div class="span2">
 	            					<?php echo $frm->getElement('end_date');?>
 	            				</div>
-	                        </div>
-	                        <div id="row-form">
 	                        	<div class="span2"><?php echo $tr->translate('PAY_STATUS') ?>:</div>
-	            				<div class="span4"><?php echo $frm->getElement('pay_status');?></div>
-	            				<div class="span4"></div>
+	            				<div class="span3"><?php echo $frm->getElement('pay_status');?></div>
 	                        	<div class="span2"><button type="submit" name="search" class="btn btn-primary"><i class="icon-edit icon-white"> </i> <?php echo $tr->translate('SEARCH'); ?> </button></div> 
 	                        </div>
 	            	</div>              

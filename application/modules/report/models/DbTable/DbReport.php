@@ -68,7 +68,7 @@ class report_Model_DbTable_DbReport extends Zend_Db_Table_Abstract
 		if(!empty($search['start_date']) or !empty($search['end_date'])){
 			$where.=" AND s.`date` BETWEEN '$start_date' AND '$end_date'";
 		}
-		if(!empty($search['invoice_no']>0)){
+		if(!empty($search['invoice_no'])>0){
 			$where.=" AND s.so_id=".$search["invoice_no"];
 		}
 		if($search["customer"]>0){

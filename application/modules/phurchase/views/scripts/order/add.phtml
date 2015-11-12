@@ -151,7 +151,6 @@ function AddProductShow(){
 }
 <?php $url_checkwarnning =  $this->url(array('module'=>'phurchase','controller'=>'order','action'=>'check-warning'));?>
 function checkWarnningQuantity(){
-	alert("1234");
 	//$('#discount_value').val(qty_warn);
 	getItemOrder();
 	$.ajax({
@@ -193,10 +192,13 @@ function addRow(item_id) {
 			
 		}
 	}
-
-	template='<tr id="row_order_'+index5+'" style="height:33px;" >';
-	num=num+1;	
-	template+='<td class="quater-input" width="3%" align="center">'+num+'<input type="hidden" value="" name="item_id_'+index5+'" id="item_id_'+index5+'" /></td>';
+	var nonumber = $('#identity').val();
+	if(nonumber == ""){
+		nonumber = 1;
+	}
+	num=num++;	
+	template='<tr id="row_order_'+index5+'" style="height:33px;" >';	
+	template+='<td class="quater-input" width="3%" align="center">'+nonumber+'<input type="hidden" value="" name="item_id_'+index5+'" id="item_id_'+index5+'" /></td>';
 	template+='<td class="quater-input" align="center"><i onClick="deleteRecord('+index5+')" class="icon-trash"> </i></td>';
 	template+='<td class="quater-input" width="30%"><select disabled="disabled"  class="validate[required]" onChange="getCurrentPrice('+ index5 + ');" id="pro_id_'+index5+'" name="pro_id_'+index5+'" >'+option5+'</select></td>';
 	template+='<td class="quater-input"><input type="text" onkeyup="totalQty('+index5+')" class="validate[required,custom[number]] input" id="qty_unit_'+index5+'" name="qty_unit_'+index5+'" /></td>';
